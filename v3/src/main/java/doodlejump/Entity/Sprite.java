@@ -60,9 +60,10 @@ public abstract class Sprite extends Region{
 
         // set velocity depending on acceleration
         velocity.add(acceleration);
+        System.out.println(velocity.y);
 
         // limit velocity to max speed
-        velocity.limit(maxSpeed);
+        //velocity.limit(maxSpeed);
 
         // change location depending on velocity
         location.add(velocity);
@@ -71,7 +72,7 @@ public abstract class Sprite extends Region{
         angle = velocity.heading2D();
 
         // clear acceleration
-        acceleration.multiply(0);
+        //acceleration.multiply(0);
     }
 
     /**
@@ -115,7 +116,11 @@ public abstract class Sprite extends Region{
         relocate(location.x - centerX, location.y - centerY);
 
         setRotate(Math.toDegrees( angle));
+    }
 
+    public void displayWithoutRotation()
+    {
+        relocate(location.x - centerX, location.y - centerY);
     }
 
     public Vector2D getVelocity() {
