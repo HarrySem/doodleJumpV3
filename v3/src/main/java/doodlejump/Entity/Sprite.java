@@ -60,7 +60,7 @@ public abstract class Sprite extends Region{
 
         // set velocity depending on acceleration
         velocity.add(acceleration);
-        System.out.println(velocity.y);
+        //System.out.println(location.y);
 
         // limit velocity to max speed
         //velocity.limit(maxSpeed);
@@ -139,5 +139,25 @@ public abstract class Sprite extends Region{
     public void setLocationOffset( double x, double y) {
         location.x += x;
         location.y += y;
+    }
+
+    public double getHighest()
+    {
+        return location.y - height/2;
+    }
+
+    public double getLowest()
+    {
+        return location.y + height/2;
+    }
+
+    public double getMostLeft()
+    {
+        return location.x - width/2;
+    }
+
+    public double getMostRight()
+    {
+        return location.x + width/2;
     }
 }
