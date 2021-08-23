@@ -1,7 +1,6 @@
 package doodlejump.Entity;
 
 public class Settings {
-
     public static double SCENE_WIDTH = 1280;
     public static double SCENE_HEIGHT = 720;
 
@@ -19,4 +18,9 @@ public class Settings {
 
     public static double PLATFORM_WIDTH = 70;
     public static double PLATFORM_HIGHT = 10;
+
+    public static double SHIFT_LINE = 200;
+    public static double BASE_LINE = 500;
+
+
 }

@@ -30,17 +30,21 @@ public class MainApp extends Application {
     private int difficultyStage;
     private List<Platform> platforms;
     private AnimationTimer gameloop;
+    private double shiftLine;
+    private double baseLine;
 
     public MainApp()
     {
         this.difficultyStage = 0;
         this.platforms = new ArrayList<>();
+        this.shiftLine = Settings.SHIFT_LINE;
+        this.baseLine = Settings.BASE_LINE;
     }
 
     @Override
     public void start(Stage primaryStage) throws IOException 
     {
-        layer = new Layer(1000, 500);
+        layer = new Layer(1000, baseLine);
         Scene scene = new Scene(layer);
         primaryStage.setScene(scene);
         
@@ -57,8 +61,10 @@ public class MainApp extends Application {
             @Override
             public void handle(long now) {
                 player.move();
-                player.displayWithoutRotation();
                 generateEnvironment();
+                shiftEnvironment();
+                player.displayWithoutRotation();
+                platforms.forEach(Platform::display);
                 System.out.println(player.getLocation().y);
                 
                 if(player.getLocation().y > layer.heightProperty().floatValue())
@@ -79,6 +85,10 @@ public class MainApp extends Application {
         player.display();
         platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, player.getLocation().y+player.getHeight()/2),
         Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
+        platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, 150), 
+        Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
+        platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, 80), 
+        Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
         
         //platforms.add(randomPlatform());
         //platforms.add(randomPlatform());
@@ -90,14 +100,40 @@ public class MainApp extends Application {
 
     private Platform randomPlatform()
     {
-
         return null;
     }
 
     private void generateEnvironment()
     {
-
+        generateEnvironmentLinear();
     }
+
+    private void generateEnvironmentLinear()
+    {
+        double spwanDistance = 100;
+        if(platforms.get(platforms.size()-1).getLocation().y > spwanDistance)
+        {
+            platforms.add(new Platform(layer, new Vector2D(layer.getPrefWidth()/2, 0),
+             Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
+        }
+    }
+
+    private void shiftEnvironment()
+    {
+        if(player.getLocation().y < shiftLine)
+        {
+            platforms.forEach(x -> x.setLocationOffset(0, player.getVelocity().y * (-1)));
+            player.setLocationOffset(0, player.getVelocity().y * (-1));
+        }
+        //platforms.forEach(x -> x.setLocationOffset(0, 0.1));
+        platforms.forEach(x -> {
+            if(x.getLocation().y > baseLine)
+                if(!platforms.remove(x))
+                    System.out.println("bruh");
+        });
+    }
+
+
 
     private void setRoot(String fxml, String title) throws IOException {
         Scene scene = new Scene(loadFXML(fxml));
