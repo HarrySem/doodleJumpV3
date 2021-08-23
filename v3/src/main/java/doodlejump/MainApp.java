@@ -5,19 +5,15 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import doodlejump.Entity.CircleTest;
 import doodlejump.Entity.Layer;
 import doodlejump.Entity.Platform;
 import doodlejump.Entity.Player;
-import doodlejump.Entity.Sprite;
 import doodlejump.Entity.Settings;
 import doodlejump.Entity.Vector2D;
 
@@ -98,11 +94,6 @@ public class MainApp extends Application {
 
     }
 
-    private Platform randomPlatform()
-    {
-        return null;
-    }
-
     private void generateEnvironment()
     {
         generateEnvironmentLinear();
@@ -126,11 +117,11 @@ public class MainApp extends Application {
             player.setLocationOffset(0, player.getVelocity().y * (-1));
         }
         //platforms.forEach(x -> x.setLocationOffset(0, 0.1));
-        platforms.forEach(x -> {
-            if(x.getLocation().y > baseLine)
-                if(!platforms.remove(x))
-                    System.out.println("bruh");
-        });
+        if(platforms.get(0).getLocation().y > baseLine)
+        {
+            layer.getChildren().remove(platforms.get(0));
+            platforms.remove(platforms.get(0));
+        }
     }
 
 
