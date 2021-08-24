@@ -84,6 +84,7 @@ public class MainApp extends Application {
 
     private void generateStartingScenario() {
         player = new Player(layer, new Vector2D(layer.getPrefWidth()/2, layer.getPrefHeight()/2), 20, 40);
+        inputManger.setPlayer(player);
         player.display();
         platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, player.getLocation().y+player.getHeight()/2),
         Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
@@ -122,7 +123,6 @@ public class MainApp extends Application {
             platforms.forEach(x -> x.setLocationOffset(0, player.getVelocity().y * (-1)));
             player.setLocationOffset(0, player.getVelocity().y * (-1));
         }
-        //platforms.forEach(x -> x.setLocationOffset(0, 0.1));
         if(platforms.get(0).getLocation().y > baseLine)
         {
             layer.getChildren().remove(platforms.get(0));
@@ -153,5 +153,9 @@ public class MainApp extends Application {
         primaryStage.close();
         //System.out.println(primaryStage);
 	}
+
+    public Player getPlayer(){
+        return this.player;
+    }
 
 }

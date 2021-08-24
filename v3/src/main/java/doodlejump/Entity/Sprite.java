@@ -60,7 +60,6 @@ public abstract class Sprite extends Region{
 
         // set velocity depending on acceleration
         velocity.add(acceleration);
-        //System.out.println(location.y);
 
         // limit velocity to max speed
         //velocity.limit(maxSpeed);
@@ -73,6 +72,7 @@ public abstract class Sprite extends Region{
 
         // clear acceleration
         //acceleration.multiply(0);
+
     }
 
     /**

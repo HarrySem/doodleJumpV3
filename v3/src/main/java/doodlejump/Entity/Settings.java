@@ -22,5 +22,7 @@ public class Settings {
     public static double SHIFT_LINE = 200;
     public static double BASE_LINE = 500;
 
+    public static double RIGHT_ARROW_SPEED = 5;
+    public static double LEFT_ARROW_SPEED = -5;
 
 }
