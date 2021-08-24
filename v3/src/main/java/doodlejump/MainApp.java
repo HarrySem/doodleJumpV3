@@ -5,12 +5,14 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import doodlejump.Entity.InputManger;
 import doodlejump.Entity.Layer;
 import doodlejump.Entity.Platform;
 import doodlejump.Entity.Player;
@@ -28,6 +30,7 @@ public class MainApp extends Application {
     private AnimationTimer gameloop;
     private double shiftLine;
     private double baseLine;
+    private InputManger inputManger;
 
     public MainApp()
     {
@@ -35,13 +38,16 @@ public class MainApp extends Application {
         this.platforms = new ArrayList<>();
         this.shiftLine = Settings.SHIFT_LINE;
         this.baseLine = Settings.BASE_LINE;
+        this.inputManger = new InputManger(this);
     }
 
     @Override
     public void start(Stage primaryStage) throws IOException 
     {
+        this.primaryStage = primaryStage;
         layer = new Layer(1000, baseLine);
         Scene scene = new Scene(layer);
+        scene.addEventHandler(KeyEvent.ANY, inputManger);
         primaryStage.setScene(scene);
         
         generateStartingScenario();
@@ -142,5 +148,10 @@ public class MainApp extends Application {
     public static void main(String[] args) {
         launch(args);
         }
+
+	public void close() {
+        primaryStage.close();
+        //System.out.println(primaryStage);
+	}
 
 }
