@@ -4,5 +4,6 @@ module doodlejump {
     requires javafx.media;
     requires transitive javafx.graphics;
     opens doodlejump to javafx.fxml;
+    opens doodlejump.Boundary to javafx.fxml;
     exports doodlejump;
 }

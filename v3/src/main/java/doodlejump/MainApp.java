@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import doodlejump.Boundary.InputManger;
+import doodlejump.Boundary.MainMenuController;
 import doodlejump.Control.Settings;
 import doodlejump.Control.Vector2D;
 import doodlejump.Entity.Layer;
@@ -34,6 +36,7 @@ public class MainApp extends Application {
     private InputManger inputManger;
     private double highscore;
     private Label highscoreLabel;
+    private MainMenuController mainMenuController;
 
     public MainApp()
     {
@@ -44,26 +47,37 @@ public class MainApp extends Application {
         this.inputManger = new InputManger(this);
         this.highscore = 0;
         this.highscoreLabel = new Label("Highscore: 0");
+        this.mainMenuController = new MainMenuController(this);
     }
 
     @Override
     public void start(Stage primaryStage) throws IOException 
     {
         this.primaryStage = primaryStage;
+        AnchorPane page = (AnchorPane) loadFXML("mainMenu", mainMenuController);
+        Scene mainMenu = new Scene(page);
+        mainMenu.addEventHandler(KeyEvent.KEY_PRESSED, inputManger);
+        primaryStage.setScene(mainMenu);
+        primaryStage.show();
+
+    }
+
+    public void startGame()
+    {
         layer = new Layer(1000, baseLine);
         layer.getChildren().add(highscoreLabel);
         Scene scene = new Scene(layer);
         scene.addEventHandler(KeyEvent.ANY, inputManger);
         primaryStage.setScene(scene);
-        
         generateStartingScenario();
-
-        startGame();
-
         primaryStage.show();
+        startGameLoop();
     }
 
-    private void startGame() {
+    private void startGameLoop() {
+
+
+
         gameloop = new AnimationTimer(){
 
             @Override
@@ -143,17 +157,9 @@ public class MainApp extends Application {
         }
     }
 
-
-
-    private void setRoot(String fxml, String title) throws IOException {
-        Scene scene = new Scene(loadFXML(fxml));
-        primaryStage.setTitle(title);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        }
-
-    private static Parent loadFXML(String fxml) throws IOException {
+    private static Parent loadFXML(String fxml, Object controller) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("/fxml/"+fxml + ".fxml"));
+        fxmlLoader.setController(controller);
         return fxmlLoader.load();
     }
 
