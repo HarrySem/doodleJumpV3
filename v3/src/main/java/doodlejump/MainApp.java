@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -31,6 +32,8 @@ public class MainApp extends Application {
     private double shiftLine;
     private double baseLine;
     private InputManger inputManger;
+    private double highscore;
+    private Label highscoreLabel;
 
     public MainApp()
     {
@@ -39,6 +42,8 @@ public class MainApp extends Application {
         this.shiftLine = Settings.SHIFT_LINE;
         this.baseLine = Settings.BASE_LINE;
         this.inputManger = new InputManger(this);
+        this.highscore = 0;
+        this.highscoreLabel = new Label("Highscore: 0");
     }
 
     @Override
@@ -46,6 +51,7 @@ public class MainApp extends Application {
     {
         this.primaryStage = primaryStage;
         layer = new Layer(1000, baseLine);
+        layer.getChildren().add(highscoreLabel);
         Scene scene = new Scene(layer);
         scene.addEventHandler(KeyEvent.ANY, inputManger);
         primaryStage.setScene(scene);
@@ -67,11 +73,11 @@ public class MainApp extends Application {
                 shiftEnvironment();
                 player.displayWithoutRotation();
                 platforms.forEach(Platform::display);
-                System.out.println(player.getLocation().y);
-                
+                //System.out.println(player.getLocation().y);
+                System.out.println(highscore);
+
                 if(player.getLocation().y > layer.heightProperty().floatValue())
                     stop();
-                
 
                 if(player.getVelocity().y > 0)
                     player.touching(platforms);
@@ -120,9 +126,16 @@ public class MainApp extends Application {
     {
         if(player.getLocation().y < shiftLine)
         {
+            //shift entire environment
             platforms.forEach(x -> x.setLocationOffset(0, player.getVelocity().y * (-1)));
             player.setLocationOffset(0, player.getVelocity().y * (-1));
+            //adjust highscore
+            highscore -= player.getVelocity().y;
+            layer.getChildren().remove(highscoreLabel);
+            highscoreLabel = new Label("Highscore: " + (int)highscore);
+            layer.getChildren().add(highscoreLabel);
         }
+        //remove platform out of frame
         if(platforms.get(0).getLocation().y > baseLine)
         {
             layer.getChildren().remove(platforms.get(0));
