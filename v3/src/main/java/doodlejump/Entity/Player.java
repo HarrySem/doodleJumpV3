@@ -2,6 +2,8 @@ package doodlejump.Entity;
 
 import java.util.List;
 
+import doodlejump.Control.Settings;
+import doodlejump.Control.Vector2D;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 

@@ -1,5 +1,7 @@
 package doodlejump.Entity;
 
+import doodlejump.Control.Settings;
+import doodlejump.Control.Vector2D;
 import javafx.scene.Node;
 import javafx.scene.layout.Region;
 
@@ -91,7 +93,7 @@ public abstract class Sprite extends Region{
         if (d < Settings.SPRITE_SLOW_DOWN_DISTANCE) {
 
             // ...set the magnitude according to how close we are.
-            double m = Utils.map(d, 0, Settings.SPRITE_SLOW_DOWN_DISTANCE, 0, maxSpeed);
+            double m = map(d, 0, Settings.SPRITE_SLOW_DOWN_DISTANCE, 0, maxSpeed);
             desired.multiply(m);
 
         } 
@@ -159,5 +161,9 @@ public abstract class Sprite extends Region{
     public double getMostRight()
     {
         return location.x + width/2;
+    }
+
+    private static double map(double value, double currentRangeStart, double currentRangeStop, double targetRangeStart, double targetRangeStop) {
+        return targetRangeStart + (targetRangeStop - targetRangeStart) * ((value - currentRangeStart) / (currentRangeStop - currentRangeStart));
     }
 }

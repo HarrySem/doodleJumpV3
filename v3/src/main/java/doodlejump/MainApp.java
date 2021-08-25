@@ -13,12 +13,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import doodlejump.Entity.InputManger;
+import doodlejump.Boundary.InputManger;
+import doodlejump.Control.Settings;
+import doodlejump.Control.Vector2D;
 import doodlejump.Entity.Layer;
 import doodlejump.Entity.Platform;
 import doodlejump.Entity.Player;
-import doodlejump.Entity.Settings;
-import doodlejump.Entity.Vector2D;
 
 
 public class MainApp extends Application {
