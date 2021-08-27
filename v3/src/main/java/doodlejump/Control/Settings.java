@@ -27,7 +27,7 @@ public class Settings {
 
     public static final double DIFFICULTY_INCREASE = 1200;
 
-    public static String HIGHSCORE_FILENAME = "highscore.txt";
+    public static String HIGHSCORE_FILENAME = "v3\\src\\main\\java\\doodlejump\\highscore.txt";
 
 
 }

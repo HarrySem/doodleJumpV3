@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
@@ -52,10 +53,9 @@ public class MainApp extends Application {
         this.baseLine = Settings.BASE_LINE;
         this.inputManger = new InputManger(this);
         this.score = 0;
-        //this.highscore = loadHighscore(); TODO: implement loadHighscore()
-        this.highscore = 0;
+        this.highscore = loadHighscore();
         this.scoreLabel = new Label("Score: " + score);
-        this.highscoreLabel = new Label("Highscore " + highscore);
+        this.highscoreLabel = new Label("Highscore " + (int)highscore);
         highscoreLabel.setLayoutY(50);
         this.mainMenuController = new MainMenuController(this);
         this.difficultyStage = 1;
@@ -75,7 +75,8 @@ public class MainApp extends Application {
         Scanner scanner;
         try {
             scanner = new Scanner(file);
-            i = Integer.parseInt(scanner.next());
+            i = scanner.nextInt();
+            
             scanner.close();
         } catch (FileNotFoundException e) {
             i = 0;
@@ -85,13 +86,9 @@ public class MainApp extends Application {
 
     private static void writeHighscore(int i) throws IOException
     {
-        File oldFile = new File(Settings.HIGHSCORE_FILENAME);
-        oldFile.delete();
-        File newFile = new File(Settings.HIGHSCORE_FILENAME);
-        newFile.createNewFile();
-        FileWriter fileWriter = new FileWriter(newFile);
-        fileWriter.write(i);
-        fileWriter.close();
+        PrintWriter writer = new PrintWriter(Settings.HIGHSCORE_FILENAME);
+        writer.print(i);
+        writer.close();
     }
 
     @Override
@@ -174,6 +171,7 @@ public class MainApp extends Application {
         }
     }
 
+    //test method
     private void generateEnvironmentLinear()
     {
         double spwanDistance = 100;
@@ -194,7 +192,7 @@ public class MainApp extends Application {
             //adjust score
             score -= player.getVelocity().y;
             layer.getChildren().remove(scoreLabel);
-            scoreLabel = new Label("Highscore: " + (int)score);
+            scoreLabel = new Label("Score: " + (int)score);
             layer.getChildren().add(scoreLabel);
             //adjust difficulty
             if(score/difficultyStage > Settings.DIFFICULTY_INCREASE)
@@ -220,8 +218,12 @@ public class MainApp extends Application {
         }
 
 	public void close() {
-        //if(score > 0)//TODO: implement loadHighscore()
-                //writeHighscore((int)score);   //TODO: implement writeHighscore()
+        if(score > 0)
+            try {
+                writeHighscore((int)score);
+            } catch (IOException e) {
+                System.out.println("Couldnt save highscore");
+            }
         primaryStage.close();
 	}
 

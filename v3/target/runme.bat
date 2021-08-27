@@ -1,0 +1,1 @@
+start jlink-image\bin\javaw -jar modules\v3-1.0-SNAPSHOT.jar
