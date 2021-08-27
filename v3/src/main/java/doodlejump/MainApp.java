@@ -13,6 +13,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.io.FileWriter;
 
 import doodlejump.Boundary.InputManger;
 import doodlejump.Boundary.MainMenuController;
@@ -21,6 +25,7 @@ import doodlejump.Control.Vector2D;
 import doodlejump.Entity.Layer;
 import doodlejump.Entity.Platform;
 import doodlejump.Entity.Player;
+
 
 
 public class MainApp extends Application {
@@ -34,8 +39,8 @@ public class MainApp extends Application {
     private double shiftLine;
     private double baseLine;
     private InputManger inputManger;
-    private double highscore;
-    private Label highscoreLabel;
+    private double score, highscore;
+    private Label scoreLabel, highscoreLabel;
     private MainMenuController mainMenuController;
 
     public MainApp()
@@ -45,9 +50,40 @@ public class MainApp extends Application {
         this.shiftLine = Settings.SHIFT_LINE;
         this.baseLine = Settings.BASE_LINE;
         this.inputManger = new InputManger(this);
+        this.score = 0;
+        //this.highscore = loadHighscore(); TODO: implement loadHighscore()
         this.highscore = 0;
-        this.highscoreLabel = new Label("Highscore: 0");
+        this.scoreLabel = new Label("Score: " + score);
+        this.highscoreLabel = new Label("Highscore " + highscore);
+        highscoreLabel.setLayoutY(50);
         this.mainMenuController = new MainMenuController(this);
+        this.difficultyStage = 0;
+    }
+
+    private static int loadHighscore()
+    {
+        int i;
+        File file = new File(Settings.HIGHSCORE_FILENAME);
+        Scanner scanner;
+        try {
+            scanner = new Scanner(file);
+            i = Integer.parseInt(scanner.next());
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            i = 0;
+        }
+        return i;
+    }
+
+    private static void writeHighscore(int i) throws IOException
+    {
+        File oldFile = new File(Settings.HIGHSCORE_FILENAME);
+        oldFile.delete();
+        File newFile = new File(Settings.HIGHSCORE_FILENAME);
+        newFile.createNewFile();
+        FileWriter fileWriter = new FileWriter(newFile);
+        fileWriter.write(i);
+        fileWriter.close();
     }
 
     @Override
@@ -65,6 +101,7 @@ public class MainApp extends Application {
     public void startGame()
     {
         layer = new Layer(1000, baseLine);
+        layer.getChildren().add(scoreLabel);
         layer.getChildren().add(highscoreLabel);
         Scene scene = new Scene(layer);
         scene.addEventHandler(KeyEvent.ANY, inputManger);
@@ -88,7 +125,7 @@ public class MainApp extends Application {
                 player.displayWithoutRotation();
                 platforms.forEach(Platform::display);
                 //System.out.println(player.getLocation().y);
-                System.out.println(highscore);
+                System.out.println(score);
 
                 if(player.getLocation().y > layer.heightProperty().floatValue())
                     stop();
@@ -144,10 +181,10 @@ public class MainApp extends Application {
             platforms.forEach(x -> x.setLocationOffset(0, player.getVelocity().y * (-1)));
             player.setLocationOffset(0, player.getVelocity().y * (-1));
             //adjust highscore
-            highscore -= player.getVelocity().y;
-            layer.getChildren().remove(highscoreLabel);
-            highscoreLabel = new Label("Highscore: " + (int)highscore);
-            layer.getChildren().add(highscoreLabel);
+            score -= player.getVelocity().y;
+            layer.getChildren().remove(scoreLabel);
+            scoreLabel = new Label("Highscore: " + (int)score);
+            layer.getChildren().add(scoreLabel);
         }
         //remove platform out of frame
         if(platforms.get(0).getLocation().y > baseLine)
@@ -169,8 +206,9 @@ public class MainApp extends Application {
         }
 
 	public void close() {
+        //if(score > 0)//TODO: implement loadHighscore()
+                //writeHighscore((int)score);   //TODO: implement writeHighscore()
         primaryStage.close();
-        //System.out.println(primaryStage);
 	}
 
     public Player getPlayer(){

@@ -25,4 +25,7 @@ public class Settings {
     public static double RIGHT_ARROW_SPEED = 5;
     public static double LEFT_ARROW_SPEED = -5;
 
+    public static String HIGHSCORE_FILENAME = "highscore.txt";
+
+
 }

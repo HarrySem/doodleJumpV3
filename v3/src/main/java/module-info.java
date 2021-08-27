@@ -6,4 +6,5 @@ module doodlejump {
     opens doodlejump to javafx.fxml;
     opens doodlejump.Boundary to javafx.fxml;
     exports doodlejump;
+    exports doodlejump.Entity;
 }
