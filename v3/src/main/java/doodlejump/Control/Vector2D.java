@@ -1,5 +1,7 @@
 package doodlejump.Control;
 
+import java.util.Random;
+
 public class Vector2D { 
 
     public double x;
@@ -60,6 +62,11 @@ public class Vector2D {
 
     public double heading2D() {
         return Math.atan2(y, x);
+    }
+
+    public static Vector2D randomVector(double xRange, int yRange) {
+        Random random = new Random();
+        return new Vector2D(random.nextInt((int)xRange), (int)yRange);
     }
 
 }

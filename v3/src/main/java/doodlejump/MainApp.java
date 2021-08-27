@@ -34,6 +34,7 @@ public class MainApp extends Application {
     private Layer layer;
     private Player player;
     private int difficultyStage;
+    private double spwanDistance;
     private List<Platform> platforms;
     private AnimationTimer gameloop;
     private double shiftLine;
@@ -57,7 +58,14 @@ public class MainApp extends Application {
         this.highscoreLabel = new Label("Highscore " + highscore);
         highscoreLabel.setLayoutY(50);
         this.mainMenuController = new MainMenuController(this);
-        this.difficultyStage = 0;
+        this.difficultyStage = 1;
+        this.spwanDistance = 10;
+    }
+
+    private void increaseDifficulty()
+    {
+        difficultyStage++;
+        spwanDistance = difficultyStage*10;
     }
 
     private static int loadHighscore()
@@ -124,8 +132,6 @@ public class MainApp extends Application {
                 shiftEnvironment();
                 player.displayWithoutRotation();
                 platforms.forEach(Platform::display);
-                //System.out.println(player.getLocation().y);
-                System.out.println(score);
 
                 if(player.getLocation().y > layer.heightProperty().floatValue())
                     stop();
@@ -160,7 +166,12 @@ public class MainApp extends Application {
 
     private void generateEnvironment()
     {
-        generateEnvironmentLinear();
+        //generateEnvironmentLinear();
+        if(platforms.get(platforms.size()-1).getLocation().y > spwanDistance)
+        {
+            platforms.add(new Platform(layer, Vector2D.randomVector(layer.getPrefWidth()-Settings.PLATFORM_WIDTH, 0),
+             Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
+        }
     }
 
     private void generateEnvironmentLinear()
@@ -180,11 +191,14 @@ public class MainApp extends Application {
             //shift entire environment
             platforms.forEach(x -> x.setLocationOffset(0, player.getVelocity().y * (-1)));
             player.setLocationOffset(0, player.getVelocity().y * (-1));
-            //adjust highscore
+            //adjust score
             score -= player.getVelocity().y;
             layer.getChildren().remove(scoreLabel);
             scoreLabel = new Label("Highscore: " + (int)score);
             layer.getChildren().add(scoreLabel);
+            //adjust difficulty
+            if(score/difficultyStage > 1000)
+                increaseDifficulty();
         }
         //remove platform out of frame
         if(platforms.get(0).getLocation().y > baseLine)
