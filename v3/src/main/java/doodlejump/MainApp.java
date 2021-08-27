@@ -197,7 +197,7 @@ public class MainApp extends Application {
             scoreLabel = new Label("Highscore: " + (int)score);
             layer.getChildren().add(scoreLabel);
             //adjust difficulty
-            if(score/difficultyStage > 1000)
+            if(score/difficultyStage > Settings.DIFFICULTY_INCREASE)
                 increaseDifficulty();
         }
         //remove platform out of frame
