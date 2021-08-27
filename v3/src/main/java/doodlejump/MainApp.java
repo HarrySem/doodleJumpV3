@@ -17,7 +17,6 @@ import java.util.List;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-import java.io.FileWriter;
 
 import doodlejump.Boundary.InputManger;
 import doodlejump.Boundary.MainMenuController;
@@ -143,7 +142,7 @@ public class MainApp extends Application {
     }
 
     private void generateStartingScenario() {
-        player = new Player(layer, new Vector2D(layer.getPrefWidth()/2, layer.getPrefHeight()/2), 20, 40);
+        player = new Player(layer, new Vector2D(layer.getPrefWidth()/2, layer.getPrefHeight()/2), 20, 40, layer.getWidth());
         inputManger.setPlayer(player);
         player.display();
         platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, player.getLocation().y+player.getHeight()/2),

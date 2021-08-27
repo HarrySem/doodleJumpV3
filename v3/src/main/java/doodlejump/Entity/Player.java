@@ -10,9 +10,11 @@ import javafx.scene.shape.Rectangle;
 public class Player extends Sprite{
     private boolean moveRight;
     private boolean moveLeft;
+    private double rightBorder;
 
-    public Player(Layer layer, Vector2D location, double width, double height) {
+    public Player(Layer layer, Vector2D location, double width, double height, double rightBorder) {
         super(layer, location, new Vector2D(0, Settings.JUMP_VELOCITY), new Vector2D(0, Settings.GRAVITY), width, height);
+        this.rightBorder = rightBorder;
         }
 
     @Override
@@ -57,6 +59,10 @@ public class Player extends Sprite{
             setLocationOffset(Settings.RIGHT_ARROW_SPEED, 0);
         else if(moveLeft)
             setLocationOffset(Settings.LEFT_ARROW_SPEED, 0);
+        if(getLocation().x < 0)
+            setLocation(rightBorder-Settings.BUFFER, getLocation().y);
+        else if(getLocation().x > rightBorder)
+            setLocation(Settings.BUFFER, getLocation().y);
     }
 
 }
