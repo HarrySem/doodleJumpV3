@@ -177,7 +177,7 @@ public class MainApp extends Application {
         }
     }
 
-    private Platform nextPlatform(Platform prev)
+    private Vector2D nextPlatformLocation(Platform prev)
     {
         Random random = new Random();
         int xLocation = random.nextInt((int)(Settings.MAX_PLATFORMDISTANCE-spwanDistance));
@@ -187,9 +187,20 @@ public class MainApp extends Application {
             xLocation -= layer.getPrefWidth();
         else if(xLocation < 0)
             xLocation += layer.getPrefWidth();
-        Platform platform = new Platform(layer, new Vector2D(xLocation, 0),
-                                        Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
-        return platform;
+        return new Vector2D(xLocation, 0);
+    }
+
+    private Platform nextPlatform(Platform prev)
+    {
+        switch(difficultyStage)
+        {
+            case 1:
+            return new Platform(layer, nextPlatformLocation(prev), Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
+            case 2:
+            //TODO: add different platform options (disappearing/ moving/ etc) -> spawnrate dependent on difficultyStage
+            default:
+            return new Platform(layer, nextPlatformLocation(prev), Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
+        }
     }
 
     //test method
