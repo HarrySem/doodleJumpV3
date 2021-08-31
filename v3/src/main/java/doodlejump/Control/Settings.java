@@ -27,6 +27,8 @@ public class Settings {
 
     public static final double DIFFICULTY_INCREASE = 1200;
     public static final double BUFFER = 10;
+    public static final double MAX_SPAWNDISTANCE = 100;
+    public static final double MAX_PLATFORMDISTANCE = 350;
 
     public static String HIGHSCORE_FILENAME = "v3\\src\\main\\java\\doodlejump\\highscore.txt";
 

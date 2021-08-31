@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -58,13 +59,15 @@ public class MainApp extends Application {
         highscoreLabel.setLayoutY(50);
         this.mainMenuController = new MainMenuController(this);
         this.difficultyStage = 1;
-        this.spwanDistance = 10;
+        this.spwanDistance = 15;
     }
 
     private void increaseDifficulty()
     {
         difficultyStage++;
         spwanDistance = difficultyStage*10;
+        if(spwanDistance > Settings.MAX_SPAWNDISTANCE)
+            spwanDistance = Settings.MAX_SPAWNDISTANCE;
     }
 
     private static int loadHighscore()
@@ -110,7 +113,8 @@ public class MainApp extends Application {
         Scene scene = new Scene(layer);
         scene.addEventHandler(KeyEvent.ANY, inputManger);
         primaryStage.setScene(scene);
-        generateStartingScenario();
+        generateStartingScenario();       //commment out for test purposes
+        //generateTestScenario();
         primaryStage.show();
         startGameLoop();
     }
@@ -151,13 +155,17 @@ public class MainApp extends Application {
         Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
         platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, 80), 
         Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
-        
-        //platforms.add(randomPlatform());
-        //platforms.add(randomPlatform());
-        //platforms.add(randomPlatform());
+    }
 
-        platforms.forEach(Platform::display);
-
+    private void generateTestScenario()
+    {
+        player = new Player(layer, new Vector2D(layer.getPrefWidth()/2, layer.getPrefHeight()/2), 20, 40, layer.getWidth());
+        inputManger.setPlayer(player);
+        player.display();
+        platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, player.getLocation().y+player.getHeight()/2),
+        Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
+        platforms.add(new Platform(layer, new Vector2D(player.getLocation().x+250, player.getLocation().y-100),
+        Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
     }
 
     private void generateEnvironment()
@@ -165,9 +173,23 @@ public class MainApp extends Application {
         //generateEnvironmentLinear();
         if(platforms.get(platforms.size()-1).getLocation().y > spwanDistance)
         {
-            platforms.add(new Platform(layer, Vector2D.randomVector(layer.getPrefWidth()-Settings.PLATFORM_WIDTH, 0),
-             Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
+            platforms.add(nextPlatform(platforms.get(platforms.size()-1)));
         }
+    }
+
+    private Platform nextPlatform(Platform prev)
+    {
+        Random random = new Random();
+        int xLocation = random.nextInt((int)(Settings.MAX_PLATFORMDISTANCE-spwanDistance));
+        xLocation -= (Settings.MAX_PLATFORMDISTANCE-spwanDistance)/2;
+        xLocation += prev.getLocation().x;
+        if(xLocation > layer.getPrefWidth())
+            xLocation -= layer.getPrefWidth();
+        else if(xLocation < 0)
+            xLocation += layer.getPrefWidth();
+        Platform platform = new Platform(layer, new Vector2D(xLocation, 0),
+                                        Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
+        return platform;
     }
 
     //test method
@@ -217,7 +239,7 @@ public class MainApp extends Application {
         }
 
 	public void close() {
-        if(score > 0)
+        if(score > loadHighscore())
             try {
                 writeHighscore((int)score);
             } catch (IOException e) {
