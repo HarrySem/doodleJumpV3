@@ -133,10 +133,7 @@ public class MainApp extends Application {
                     stop();
 
                 if(player.getVelocity().y > 0)
-                    platforms.forEach(x -> {
-                        if(x.touching(player))
-                            player.jump();
-                    });
+                    platforms.forEach(x -> x.collide(player));
             }
             
         };
@@ -162,7 +159,7 @@ public class MainApp extends Application {
         player.display();
         platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, player.getLocation().y+player.getHeight()/2),
         Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
-        platforms.add(new Platform(layer, new Vector2D(player.getLocation().x+350, player.getLocation().y-100),
+        platforms.add(new SpringPlatform(layer, new Vector2D(player.getLocation().x+350, player.getLocation().y-100),
         Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
     }
 
@@ -176,16 +173,21 @@ public class MainApp extends Application {
     }
 
     private Platform nextPlatform(Platform prev)
-    {
+    {            //TODO: add different platform options (disappearing/ moving/ etc) -> spawnrate dependent on difficultyStage
         Random random = new Random();
         switch(difficultyStage)
         {
             case 1:
-            return new Platform(layer, new Vector2D(random.nextInt((int)layer.getPrefWidth()), 0), Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
-            case 2:
-            //TODO: add different platform options (disappearing/ moving/ etc) -> spawnrate dependent on difficultyStage
+
+                return new Platform(layer, new Vector2D(random.nextInt((int)layer.getPrefWidth()), 0), Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
+
+
             default:
-            return new Platform(layer, new Vector2D(random.nextInt((int)layer.getPrefWidth()), 0), Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
+
+            if(random.nextInt(20) == 0)
+                return new SpringPlatform(layer, new Vector2D(random.nextInt((int)layer.getPrefWidth()), 0), Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
+            else
+                return new Platform(layer, new Vector2D(random.nextInt((int)layer.getPrefWidth()), 0), Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
         }
     }
 

@@ -15,10 +15,11 @@ public class Platform extends Sprite{
         return new Rectangle(width, height);
     }
 
-    public boolean touching(Player player)
+    public void collide(Player player)
     {
-        return (player.getLowest() > getHighest() && player.getLowest() < getLowest() && 
-            player.getMostRight() > getMostLeft() && player.getMostLeft() < getMostRight());
+        if(player.getLowest() > getHighest() && player.getLowest() < getLowest() && 
+            player.getMostRight() > getMostLeft() && player.getMostLeft() < getMostRight())
+            player.jump();
     }
     
 }

@@ -1,7 +1,5 @@
 package doodlejump.Entity;
 
-import java.util.List;
-
 import doodlejump.Control.Settings;
 import doodlejump.Control.Vector2D;
 import javafx.scene.Node;
@@ -59,6 +57,10 @@ public class Player extends Sprite{
 
     public void jump() {
         velocity = new Vector2D(velocity.x, Settings.JUMP_VELOCITY);
+    }
+
+    public void springJump() {
+        velocity = new Vector2D(velocity.x, Settings.SPRING_JUMP_VELOCITY);
     }
 
 }

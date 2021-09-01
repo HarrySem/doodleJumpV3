@@ -77,38 +77,6 @@ public abstract class Sprite extends Region{
 
     }
 
-    /**
-     * Move sprite towards target
-     */
-    public void seek(Vector2D target) {
-
-        Vector2D desired = Vector2D.subtract(target, location);
-
-        // The distance is the magnitude of the vector pointing from location to target.
-
-        double d = desired.magnitude();
-        desired.normalize();
-
-        // If we are closer than 100 pixels...
-        if (d < Settings.SPRITE_SLOW_DOWN_DISTANCE) {
-
-            // ...set the magnitude according to how close we are.
-            double m = map(d, 0, Settings.SPRITE_SLOW_DOWN_DISTANCE, 0, maxSpeed);
-            desired.multiply(m);
-
-        } 
-        // Otherwise, proceed at maximum speed.
-        else {
-            desired.multiply(maxSpeed);
-        }
-
-        // The usual steering = desired - velocity
-        Vector2D steer = Vector2D.subtract(desired, velocity);
-        steer.limit(maxForce);
-
-        applyForce(steer);
-
-    }
 
     /**
      * Update node position
@@ -161,9 +129,5 @@ public abstract class Sprite extends Region{
     public double getMostRight()
     {
         return location.x + width/2;
-    }
-
-    private static double map(double value, double currentRangeStart, double currentRangeStop, double targetRangeStart, double targetRangeStop) {
-        return targetRangeStart + (targetRangeStop - targetRangeStart) * ((value - currentRangeStart) / (currentRangeStop - currentRangeStart));
     }
 }
