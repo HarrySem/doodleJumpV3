@@ -126,7 +126,7 @@ public class MainApp extends Application {
                 player.move();
                 generateEnvironment();
                 shiftEnvironment();
-                player.displayWithoutRotation();
+                player.display();
                 platforms.forEach(Platform::display);
 
                 if(player.getLocation().y > layer.heightProperty().floatValue())
@@ -159,7 +159,7 @@ public class MainApp extends Application {
         player.display();
         platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, player.getLocation().y+player.getHeight()/2),
         Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
-        platforms.add(new SpringPlatform(layer, new Vector2D(player.getLocation().x+350, player.getLocation().y-100),
+        platforms.add(new BouncePlatform(layer, new Vector2D(player.getLocation().x+350, player.getLocation().y-100),
         Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
     }
 
@@ -168,26 +168,29 @@ public class MainApp extends Application {
         //generateEnvironmentLinear();
         if(platforms.get(platforms.size()-1).getLocation().y > spwanDistance)
         {
-            platforms.add(nextPlatform(platforms.get(platforms.size()-1)));
+            platforms.add(nextPlatform());
         }
     }
 
-    private Platform nextPlatform(Platform prev)
+    private Platform nextPlatform()
     {            //TODO: add different platform options (disappearing/ moving/ etc) -> spawnrate dependent on difficultyStage
         Random random = new Random();
+        Vector2D location = new Vector2D(random.nextInt((int)(layer.getPrefWidth() - 2*Settings.PLATFORM_BUFFER)) + Settings.PLATFORM_BUFFER, 0);
         switch(difficultyStage)
         {
             case 1:
 
-                return new Platform(layer, new Vector2D(random.nextInt((int)layer.getPrefWidth()), 0), Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
+                return new Platform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
 
 
             default:
-
-            if(random.nextInt(20) == 0)
-                return new SpringPlatform(layer, new Vector2D(random.nextInt((int)layer.getPrefWidth()), 0), Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
+            int i = random.nextInt(20);
+            if(i == 0)
+                return new SpringPlatform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
+            else if(i == 1)
+                return new BouncePlatform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
             else
-                return new Platform(layer, new Vector2D(random.nextInt((int)layer.getPrefWidth()), 0), Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
+                return new Platform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
         }
     }
 

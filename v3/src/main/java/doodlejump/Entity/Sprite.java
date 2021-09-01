@@ -76,7 +76,7 @@ public abstract class Sprite extends Region{
         location.add(velocity);
 
         // angle: towards velocity (ie target)
-        angle = velocity.heading2D();
+        //angle = velocity.heading2D();
 
         // clear acceleration
         //acceleration.multiply(0);
@@ -85,7 +85,7 @@ public abstract class Sprite extends Region{
     }
 
 
-    public void clearCache() {
+    private void clearCache() {
         highestCache = 0;
         lowestCache = 0;
         mostLeftCache = 0;
@@ -99,7 +99,7 @@ public abstract class Sprite extends Region{
 
         relocate(location.x - centerX, location.y - centerY);
 
-        setRotate(Math.toDegrees( angle));
+        setRotate(angle);
     }
 
     public void displayWithoutRotation()
