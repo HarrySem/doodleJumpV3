@@ -14,5 +14,11 @@ public class Platform extends Sprite{
     public Node createView() {
         return new Rectangle(width, height);
     }
+
+    public boolean touching(Player player)
+    {
+        return (player.getLowest() > getHighest() && player.getLowest() < getLowest() && 
+            player.getMostRight() > getMostLeft() && player.getMostLeft() < getMostRight());
+    }
     
 }

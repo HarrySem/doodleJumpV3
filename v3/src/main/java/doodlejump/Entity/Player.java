@@ -22,14 +22,6 @@ public class Player extends Sprite{
         return new Rectangle(width, height);
     }
 
-    public void touching(List<Platform> platforms) {
-        platforms.forEach(x -> {
-            if(getLowest() > x.getHighest() && getLowest() < x.getLowest() && 
-            getMostRight() > x.getMostLeft() && getMostLeft() < x.getMostRight())
-                    velocity = new Vector2D(velocity.x, Settings.JUMP_VELOCITY);
-        });
-    }
-
     public void setRight()
     {
         moveRight = true;
@@ -63,6 +55,10 @@ public class Player extends Sprite{
             setLocation(rightBorder-Settings.BUFFER, getLocation().y);
         else if(getLocation().x > rightBorder)
             setLocation(Settings.BUFFER, getLocation().y);
+    }
+
+    public void jump() {
+        velocity = new Vector2D(velocity.x, Settings.JUMP_VELOCITY);
     }
 
 }

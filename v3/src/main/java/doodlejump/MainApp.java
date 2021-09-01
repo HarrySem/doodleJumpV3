@@ -133,8 +133,10 @@ public class MainApp extends Application {
                     stop();
 
                 if(player.getVelocity().y > 0)
-                    player.touching(platforms);
-
+                    platforms.forEach(x -> {
+                        if(x.touching(player))
+                            player.jump();
+                    });
             }
             
         };
