@@ -117,8 +117,6 @@ public class MainApp extends Application {
 
     private void startGameLoop() {
 
-
-
         gameloop = new AnimationTimer(){
 
             @Override
@@ -167,7 +165,7 @@ public class MainApp extends Application {
         player.display();
         platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, player.getLocation().y+player.getHeight()/2),
         Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
-        platforms.add(new BouncePlatform(layer, new Vector2D(player.getLocation().x+350, player.getLocation().y-100),
+        platforms.add(new ExplodingPlatform(layer, new Vector2D(player.getLocation().x+350, player.getLocation().y-100),
         Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
     }
 
@@ -197,6 +195,10 @@ public class MainApp extends Application {
                 return new SpringPlatform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
             else if(i == 1)
                 return new BouncePlatform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
+            else if(i == 2)
+                return new DisappearingPlatform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
+            else if(i == 3)
+                return new ExplodingPlatform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
             else
                 return new Platform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
         }
