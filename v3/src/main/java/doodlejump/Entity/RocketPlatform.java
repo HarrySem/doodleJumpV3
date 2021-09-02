@@ -7,39 +7,39 @@ import javafx.scene.Node;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
-public class PropellerPlatform extends Platform{
+public class RocketPlatform extends Platform{
 
-    private boolean propellerUsed;
-    
-    public PropellerPlatform(Layer layer, Vector2D location, double width, double height) {
+    private boolean rocketUsed;
+
+    public RocketPlatform(Layer layer, Vector2D location, double width, double height) {
         super(layer, location, width, height);
-        this.propellerUsed = false;
+        this.rocketUsed = false;
     }
 
     @Override
     public Node createView() {
-        if(propellerUsed)
+        if(rocketUsed)
             return super.createView();
         else
         {
             Group group = new Group();
             Rectangle rectangle = (Rectangle) super.createView();
-            Rectangle propeller = new Rectangle(20, 20, Paint.valueOf("green"));
+            Rectangle propeller = new Rectangle(Settings.ROCKET_WIDTH, Settings.ROCKET_HEIGHT, Paint.valueOf("purple"));
             group.getChildren().add(rectangle);
             group.getChildren().add(propeller);
-            propeller.setLayoutY(-Settings.PROPELLER_HEIGHT);
-            propeller.setLayoutX(Settings.PROPELLER_WIDTH);
+            propeller.setLayoutY(-Settings.ROCKET_HEIGHT);
+            propeller.setLayoutX(Settings.ROCKET_WIDTH);
             return group;
         }
     }
 
     @Override
     public void collide(Player player) {
-        if(player.getLowest() > getHighest()-Settings.PROPELLER_HEIGHT && player.getHighest() < getHighest() && 
-            player.getMostRight() > getMostLeft()+Settings.PROPELLER_WIDTH && player.getMostLeft() < getMostLeft()+2*Settings.PROPELLER_WIDTH)
+        if(player.getLowest() > getHighest()-Settings.ROCKET_HEIGHT && player.getHighest() < getHighest() && 
+            player.getMostRight() > getMostLeft()+Settings.ROCKET_WIDTH && player.getMostLeft() < getMostLeft()+2*Settings.ROCKET_WIDTH)
         {
-            player.propeller();
-            propellerUsed = true;
+            player.rocket();
+            rocketUsed = true;
             updateView();
         }
         else

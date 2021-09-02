@@ -9,7 +9,7 @@ public class Settings {
     public static final int ATTRACTOR_COUNT = 1;
     public static final int VEHICLE_COUNT = 10;
 
-    public static final double SPRITE_MAX_SPEED = 2;
+    public static final double SPRITE_MAX_SPEED = -25;
     public static final double SPRITE_MAX_FORCE = 0.1;
 
     public static final double GRAVITY = 0.2;
@@ -37,11 +37,21 @@ public class Settings {
     public static final double BOUNCE_HEIGHT = 20;
     public static final int BOUNCE_SPIN_SPEED = 5;
 
+    //Moving Platform
     public static final double MOVE_DISTANCE_PLATFORM = 150;
     public static final double MOVING_PLATFORM_SPEED = 2;
+
+    //Propeller
     public static final int PROPELLER_DURATION = 300;
     public static final double PROPELLER_HEIGHT = 20;
     public static final double PROPELLER_WIDTH = 20;
     public static final double PROPELLER_SPEED = -8;
+
+    //Rocket
+    public static final double ROCKET_HEIGHT = 50;
+    public static final double ROCKET_WIDTH = 30;
+    public static final double ROCKET_ACCELERATION = -0.2;
+    public static final double ROCKET_SPEED = -5;
+    public static final int ROCKET_DURATION = 150;
 
 }

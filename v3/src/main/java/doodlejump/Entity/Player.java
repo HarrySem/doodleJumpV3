@@ -5,6 +5,7 @@ import doodlejump.Control.Vector2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public class Player extends Sprite{
@@ -15,6 +16,8 @@ public class Player extends Sprite{
     private int bounceProgression;
     private boolean propeller;
     private int propellerProgression;
+    private boolean rocket;
+    private int rocketProgession;
 
     public Player(Layer layer, Vector2D location, double width, double height, double rightBorder) 
     {
@@ -26,6 +29,8 @@ public class Player extends Sprite{
         this.propeller = false;
         this.bounceProgression = 0;
         this.propellerProgression = 0;
+        this.rocket = false;
+        this.rocketProgession = 0;
     }
 
     @Override
@@ -34,10 +39,21 @@ public class Player extends Sprite{
         {
             Group group = new Group();
             Rectangle rectangle = new Rectangle(width, height);
-            Rectangle propeller = new Rectangle(20, 20, Paint.valueOf("green"));
+            Rectangle propeller = new Rectangle(Settings.PROPELLER_WIDTH, Settings.PROPELLER_HEIGHT, Paint.valueOf("green"));
             group.getChildren().add(rectangle);
             group.getChildren().add(propeller);
             propeller.setLayoutY(-Settings.PROPELLER_HEIGHT);
+            return group;
+        }
+        else if(rocket)
+        {
+            Group group = new Group();
+            Rectangle rectangle = new Rectangle(Settings.ROCKET_WIDTH, Settings.ROCKET_HEIGHT, Paint.valueOf("purple"));
+            Circle circle = new Circle(5);
+            group.getChildren().add(rectangle);
+            group.getChildren().add(circle);
+            circle.setLayoutX(Settings.ROCKET_WIDTH/2);
+            circle.setLayoutY(Settings.ROCKET_HEIGHT/2);
             return group;
         }
         else
@@ -100,6 +116,17 @@ public class Player extends Sprite{
                 updateView();
             }
         }
+        else if(rocket)
+        {
+            rocketProgession++;
+            if(rocketProgession >= Settings.ROCKET_DURATION)
+            {
+                rocket = false;
+                rocketProgession = 0;
+                acceleration = new Vector2D(0, Settings.GRAVITY);
+                updateView();
+            }
+        }
     }
 
     public void jump() {
@@ -117,10 +144,23 @@ public class Player extends Sprite{
 
     public void propeller()
     {
-        propeller = true;
-        acceleration = new Vector2D(0, 0);
-        velocity = new Vector2D(0, Settings.PROPELLER_SPEED);
-        updateView();
+        if(!rocket)
+        {
+            propeller = true;
+            acceleration = new Vector2D(0, 0);
+            velocity = new Vector2D(0, Settings.PROPELLER_SPEED);
+            updateView();
+        }
+    }
+
+    public void rocket() {
+        if(!propeller)
+        {
+            rocket = true;
+            acceleration = new Vector2D(0, Settings.ROCKET_ACCELERATION);
+            velocity = new Vector2D(0, Settings.ROCKET_SPEED);
+            updateView();
+        }
     }
 
 }

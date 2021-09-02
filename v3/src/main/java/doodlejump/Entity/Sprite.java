@@ -70,7 +70,8 @@ public abstract class Sprite extends Region{
         velocity.add(acceleration);
 
         // limit velocity to max speed
-        //velocity.limit(maxSpeed);
+        if(velocity.y < Settings.SPRITE_MAX_SPEED)
+            velocity = new Vector2D(velocity.x, Settings.SPRITE_MAX_SPEED);
 
         // change location depending on velocity
         location.add(velocity);
