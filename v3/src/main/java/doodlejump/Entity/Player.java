@@ -2,7 +2,9 @@ package doodlejump.Entity;
 
 import doodlejump.Control.Settings;
 import doodlejump.Control.Vector2D;
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 public class Player extends Sprite{
@@ -11,6 +13,8 @@ public class Player extends Sprite{
     private double rightBorder;
     private boolean bouncing;
     private int bounceProgression;
+    private boolean propeller;
+    private int propellerProgression;
 
     public Player(Layer layer, Vector2D location, double width, double height, double rightBorder) 
     {
@@ -19,12 +23,25 @@ public class Player extends Sprite{
         this.moveLeft = false;
         this.moveRight = false;
         this.bouncing = false;
+        this.propeller = false;
         this.bounceProgression = 0;
+        this.propellerProgression = 0;
     }
 
     @Override
     public Node createView() {
-        return new Rectangle(width, height);
+        if(propeller)
+        {
+            Group group = new Group();
+            Rectangle rectangle = new Rectangle(width, height);
+            Rectangle propeller = new Rectangle(20, 20, Paint.valueOf("green"));
+            group.getChildren().add(rectangle);
+            group.getChildren().add(propeller);
+            propeller.setLayoutY(-Settings.PROPELLER_HEIGHT);
+            return group;
+        }
+        else
+            return new Rectangle(width, height);
     }
 
     public void setRight()
@@ -72,6 +89,17 @@ public class Player extends Sprite{
                 bounceProgression = 0;
             }
         }
+        else if(propeller)
+        {
+            propellerProgression++;
+            if(propellerProgression >= Settings.PROPELLER_DURATION)
+            {
+                propeller = false;
+                propellerProgression = 0;
+                acceleration = new Vector2D(0, Settings.GRAVITY);
+                updateView();
+            }
+        }
     }
 
     public void jump() {
@@ -85,6 +113,14 @@ public class Player extends Sprite{
     public void bounceJump() {
         bouncing = true;
         velocity = new Vector2D(velocity.x, Settings.BOUNCE_JUMP_VELOCITY);
+    }
+
+    public void propeller()
+    {
+        propeller = true;
+        acceleration = new Vector2D(0, 0);
+        velocity = new Vector2D(0, Settings.PROPELLER_SPEED);
+        updateView();
     }
 
 }

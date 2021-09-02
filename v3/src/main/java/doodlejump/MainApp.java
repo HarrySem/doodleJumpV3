@@ -165,7 +165,7 @@ public class MainApp extends Application {
         player.display();
         platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, player.getLocation().y+player.getHeight()/2),
         Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
-        platforms.add(new MovingPlatformVertical(layer, new Vector2D(player.getLocation().x+350, player.getLocation().y-100),
+        platforms.add(new PropellerPlatform(layer, new Vector2D(player.getLocation().x+350, player.getLocation().y-100),
         Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
     }
 
@@ -203,6 +203,8 @@ public class MainApp extends Application {
                 return new MovingPlatformHorizontal(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
             else if(i == 5)
                 return new MovingPlatformVertical(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
+            else if(i == 6)
+                return new PropellerPlatform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
             else
                 return new Platform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
         }

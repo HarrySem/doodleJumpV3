@@ -38,7 +38,10 @@ public class Settings {
     public static final int BOUNCE_SPIN_SPEED = 5;
 
     public static final double MOVE_DISTANCE_PLATFORM = 150;
-
     public static final double MOVING_PLATFORM_SPEED = 2;
+    public static final int PROPELLER_DURATION = 300;
+    public static final double PROPELLER_HEIGHT = 20;
+    public static final double PROPELLER_WIDTH = 20;
+    public static final double PROPELLER_SPEED = -8;
 
 }
