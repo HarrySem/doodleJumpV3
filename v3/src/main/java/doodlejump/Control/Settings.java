@@ -37,4 +37,6 @@ public class Settings {
     public static final double BOUNCE_HEIGHT = 20;
     public static final int BOUNCE_SPIN_SPEED = 5;
 
+    public static final double MOVE_DISTANCE_PLATFORM = 300;
+
 }
