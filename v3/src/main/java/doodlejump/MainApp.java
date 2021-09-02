@@ -130,7 +130,15 @@ public class MainApp extends Application {
                 platforms.forEach(Platform::display);
 
                 if(player.getLocation().y > layer.heightProperty().floatValue())
+                {
+                    if(score > loadHighscore())
+                        try {
+                            writeHighscore((int)score);
+                        } catch (IOException e) {
+                            System.out.println("Couldnt save highscore");
+                        }
                     stop();
+                }
 
                 if(player.getVelocity().y > 0)
                     platforms.forEach(x -> x.collide(player));
@@ -241,17 +249,21 @@ public class MainApp extends Application {
         }
 
 	public void close() {
-        if(score > loadHighscore())
-            try {
-                writeHighscore((int)score);
-            } catch (IOException e) {
-                System.out.println("Couldnt save highscore");
-            }
         primaryStage.close();
 	}
 
     public Player getPlayer(){
         return this.player;
     }
+
+	public void restart() {
+        gameloop.stop();
+        score = 0;
+        highscore = loadHighscore();
+        highscoreLabel = new Label("Highscore " + (int)highscore);
+        highscoreLabel.setLayoutY(50);
+        platforms.clear();
+        startGame();
+	}
 
 }
