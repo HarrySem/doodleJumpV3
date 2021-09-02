@@ -6,13 +6,13 @@ import javafx.scene.Node;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
-public class MovingPlatform extends Platform{
+public class MovingPlatformHorizontal extends Platform{
 
     private boolean movingRight;
     private double a, b;
     private double traversingDistance;
 
-    public MovingPlatform(Layer layer, Vector2D location, double width, double height) {
+    public MovingPlatformHorizontal(Layer layer, Vector2D location, double width, double height) {
         super(layer, location, width, height);
         this.movingRight = true;
         this.traversingDistance = Settings.MOVE_DISTANCE_PLATFORM;

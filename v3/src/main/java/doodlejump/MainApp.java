@@ -165,7 +165,7 @@ public class MainApp extends Application {
         player.display();
         platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, player.getLocation().y+player.getHeight()/2),
         Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
-        platforms.add(new MovingPlatform(layer, new Vector2D(player.getLocation().x+350, player.getLocation().y-100),
+        platforms.add(new MovingPlatformVertical(layer, new Vector2D(player.getLocation().x+350, player.getLocation().y-100),
         Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
     }
 
@@ -200,7 +200,9 @@ public class MainApp extends Application {
             else if(i == 3)
                 return new ExplodingPlatform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
             else if(i == 4)
-                return new MovingPlatform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
+                return new MovingPlatformHorizontal(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
+            else if(i == 5)
+                return new MovingPlatformVertical(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
             else
                 return new Platform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
         }
@@ -266,6 +268,8 @@ public class MainApp extends Application {
         highscore = loadHighscore();
         highscoreLabel = new Label("Highscore " + (int)highscore);
         highscoreLabel.setLayoutY(50);
+        difficultyStage = 1;
+        spwanDistance = 15;
         platforms.clear();
         startGame();
 	}
