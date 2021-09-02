@@ -29,6 +29,10 @@ public class InputManger implements EventHandler<KeyEvent>{
         {
             mainApp.close();
         }
+        else if(input.equals(KeyCode.R))
+        {
+            mainApp.restart();
+        }
         if(event.getEventType().equals(KeyEvent.KEY_PRESSED))
         {
             if(input.equals(KeyCode.RIGHT))

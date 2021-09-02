@@ -82,7 +82,7 @@ public class Player extends Sprite{
         velocity = new Vector2D(velocity.x, Settings.SPRING_JUMP_VELOCITY);
     }
 
-    public void bounceJump() { //TODO: add bounce animation
+    public void bounceJump() {
         bouncing = true;
         velocity = new Vector2D(velocity.x, Settings.BOUNCE_JUMP_VELOCITY);
     }

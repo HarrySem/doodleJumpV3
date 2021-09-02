@@ -154,4 +154,11 @@ public abstract class Sprite extends Region{
             mostRightCache = location.x + width/2;
         return mostRightCache;
     }
+
+    public void updateView()
+    {
+        getChildren().remove(view);
+        view = createView();
+        getChildren().add(view);
+    }
 }
