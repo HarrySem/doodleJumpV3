@@ -16,24 +16,56 @@ public class MovingPlatform extends Platform{
         super(layer, location, width, height);
         this.movingRight = true;
         this.traversingDistance = Settings.MOVE_DISTANCE_PLATFORM;
-        if(location.x - traversingDistance/2 > 0 && location.x + traversingDistance/2 < layer.getPrefWidth())
+        if(location.x - traversingDistance > Settings.PLATFORM_BUFFER)
         {
-            this.a = location.x - traversingDistance/2;
-            this.b = location.x + traversingDistance/2;
+            if(location.x + traversingDistance < layer.getPrefWidth()-Settings.PLATFORM_BUFFER)
+            {
+                this.a = location.x - traversingDistance;
+                this.b = location.x + traversingDistance;
+            }
+            else
+            {
+                this.b = layer.getPrefWidth() - Settings.PLATFORM_BUFFER;
+                this.a = b - 2*traversingDistance;
+            }
         }
-        //else if(location.x) TODO: contrinue here, maybe make more efficent lulz
+        else
+        {
+            if(location.x + traversingDistance < layer.getPrefWidth()-Settings.PLATFORM_BUFFER)
+            {
+                this.a = Settings.PLATFORM_BUFFER;
+                this.b = a + 2*traversingDistance;
+            }
+            else
+            {
+                this.a = Settings.PLATFORM_BUFFER;
+                this.b = layer.getWidth() - Settings.PLATFORM_BUFFER;
+                traversingDistance = b - a;
+            }
+        }
     }
 
     @Override
     public Node createView() {
         Rectangle rectangle = (Rectangle)super.createView();
-        rectangle.setFill(Paint.valueOf("turquois"));
+        rectangle.setFill(Paint.valueOf("blue"));
         return rectangle;
     }
 
     @Override
     public void display() {
-        if()
+        if(movingRight)
+        {
+            setLocationOffset(Settings.MOVING_PLATFORM_SPEED, 0);
+            if(location.x > b)
+                movingRight = false;
+        }
+        else
+        {
+            setLocationOffset(-Settings.MOVING_PLATFORM_SPEED, 0);
+            if(location.x < a)
+                movingRight = true;
+        }
         super.display();
     }
     
