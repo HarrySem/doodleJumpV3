@@ -26,7 +26,7 @@ public class SpringPlatform extends Platform{
 
     @Override
     public void collide(Player player) {
-        if(player.getLowest() > getHighest()-Settings.SPRING_HEIGHT && player.getLowest() < getLowest() && 
+        if(player.velocity.y > 0 && player.getLowest() > getHighest()-Settings.SPRING_HEIGHT && player.getLowest() < getLowest() && 
             player.getMostRight() > getMostLeft() && player.getMostLeft() < getMostLeft()+Settings.SPRINGS_WIDTH)
             player.springJump();
         else

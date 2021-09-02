@@ -137,8 +137,6 @@ public class MainApp extends Application {
                         }
                     stop();
                 }
-
-                if(player.getVelocity().y > 0)
                     platforms.forEach(x -> x.collide(player));
             }
             

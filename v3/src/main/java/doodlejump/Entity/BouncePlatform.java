@@ -27,7 +27,7 @@ public class BouncePlatform extends Platform{
 
     @Override
     public void collide(Player player) {
-        if(player.getLowest() > getHighest()-Settings.BOUNCE_HEIGHT && player.getLowest() < getLowest() && 
+        if(player.velocity.y > 0 && player.getLowest() > getHighest()-Settings.BOUNCE_HEIGHT && player.getLowest() < getLowest() && 
             player.getMostRight() > getMostRight()-Settings.BOUNCE_WIDTH && player.getMostLeft() < getMostRight())
             player.bounceJump();
         else

@@ -21,7 +21,7 @@ public class DisappearingPlatform extends Platform{
 
     @Override
     public void collide(Player player) {
-        if(!disappeared && player.getLowest() > getHighest() && player.getLowest() < getLowest() && 
+        if(player.velocity.y > 0 && !disappeared && player.getLowest() > getHighest() && player.getLowest() < getLowest() && 
             player.getMostRight() > getMostLeft() && player.getMostLeft() < getMostRight())
             {
                 player.jump();

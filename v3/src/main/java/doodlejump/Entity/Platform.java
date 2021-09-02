@@ -17,7 +17,7 @@ public class Platform extends Sprite{
 
     public void collide(Player player)
     {
-        if(player.getLowest() > getHighest() && player.getLowest() < getLowest() && 
+        if(player.velocity.y > 0 && player.getLowest() > getHighest() && player.getLowest() < getLowest() && 
             player.getMostRight() > getMostLeft() && player.getMostLeft() < getMostRight())
             player.jump();
     }
