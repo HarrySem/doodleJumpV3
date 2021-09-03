@@ -19,7 +19,7 @@ public class Projectile extends Sprite{
 
     public void hit()
     {
-        //TODO: check for hits on enemies
+        //TODO: check for hits on enemies test
     }
     
 }
