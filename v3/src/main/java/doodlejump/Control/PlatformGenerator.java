@@ -3,23 +3,26 @@ package doodlejump.Control;
 import java.util.List;
 import java.util.Random;
 
+import doodlejump.MainApp;
 import doodlejump.Entity.*;
 
 
 public class PlatformGenerator {
 
+    private MainApp mainApp;
     private Random random;
     private int difficultyStage;
     private Layer layer;
     private boolean event, eventLeft;
     private int eventProgression;
 
-    public PlatformGenerator(Layer layer)
+    public PlatformGenerator(MainApp mainApp)
     {
+        this.mainApp = mainApp;
+        this.layer = mainApp.getLayer();
         this.random = new Random();
         this.difficultyStage = 0;
-        this.layer = layer;
-        this.event = false;
+        this.event = true;
         this.eventLeft = true;
         this.eventProgression = 0;
     }
@@ -43,7 +46,6 @@ public class PlatformGenerator {
         //Determining Location of next Platform
         if(event)
         {
-            System.out.println("event");
             eventProgression++;
             location = nextLocation(true);
             if(eventProgression >= Settings.EVENT_DURATION)
@@ -51,6 +53,13 @@ public class PlatformGenerator {
                 event = false;
                 eventProgression = 0;
                 eventLeft = !eventLeft;
+            }
+            else if(eventProgression == Settings.EVENT_DURATION/4)
+            {
+                if(eventLeft)
+                    mainApp.addEnemy(new Enemy(layer, new Vector2D(Settings.ENEMY_SPAWN_LEFT, -Settings.ENEMY_HEIGHT)));
+                else
+                    mainApp.addEnemy(new Enemy(layer, new Vector2D(Settings.ENEMY_SPAWN_RIGHT, -Settings.ENEMY_HEIGHT)));
             }
         }
         else if(difficultyStage >= Settings.SPAWNSTART_EVENT && randomInt < propability)
@@ -106,11 +115,11 @@ public class PlatformGenerator {
         Random random = new Random();
         if(event)
         {
-            if(eventLeft)
-                return new Vector2D(random.nextInt((int)(layer.getPrefWidth()/2 - 2*Settings.PLATFORM_BUFFER))
+            if(!eventLeft)
+                return new Vector2D(random.nextInt((int)(layer.getPrefWidth()/2 - Settings.PLATFORM_BUFFER))
                 + Settings.PLATFORM_BUFFER, 0);
             else
-                return new Vector2D(random.nextInt((int)(layer.getPrefWidth()/2 - 2*Settings.PLATFORM_BUFFER))
+                return new Vector2D(random.nextInt((int)(layer.getPrefWidth()/2 - Settings.PLATFORM_BUFFER))
                 + layer.getPrefWidth()/2 + Settings.PLATFORM_BUFFER, 0);
         }
         else

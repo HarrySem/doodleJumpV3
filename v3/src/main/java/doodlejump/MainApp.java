@@ -31,18 +31,18 @@ public class MainApp extends Application {
     private Player player;
     private int difficultyStage;
     private double spwanDistance;
-    private List<Platform> platforms;
     private AnimationTimer gameloop;
-    private double shiftLine;
-    private double baseLine;
+    private double shiftLine, baseLine, score, highscore;
     private InputManger inputManger;
-    private double score, highscore;
     private Label scoreLabel, highscoreLabel;
     private MainMenuController mainMenuController;
     private PlatformGenerator platformGenerator;
-    private List<Projectile> projectiles;
     private boolean falling, gameOver;
     private int fallingProgression;
+    private List<Platform> platforms;
+    private List<Enemy> enemies;
+    private List<Projectile> projectiles;
+    
 
     public MainApp()
     {
@@ -58,10 +58,11 @@ public class MainApp extends Application {
         this.mainMenuController = new MainMenuController(this);
         this.spwanDistance = 15;
         this.difficultyStage = 0;
-        projectiles = new ArrayList<>();
+        this.projectiles = new ArrayList<>();
         this.falling = false;
         this.gameOver = false;
         this.fallingProgression = 0;
+        this.enemies = new ArrayList<>();
     }
 
     private void increaseDifficulty()
@@ -110,13 +111,13 @@ public class MainApp extends Application {
 
     public void startGame()
     {
-        layer = new Layer(1000, baseLine);
+        layer = new Layer(Settings.SCENE_WIDTH, Settings.SCENE_HEIGHT);
         layer.getChildren().add(scoreLabel);
         layer.getChildren().add(highscoreLabel);
         Scene scene = new Scene(layer);
         scene.addEventHandler(KeyEvent.ANY, inputManger);
         primaryStage.setScene(scene);
-        this.platformGenerator = new PlatformGenerator(layer);
+        this.platformGenerator = new PlatformGenerator(this);
 
         //generate starting scenario
         player = platformGenerator.generateStartingScenario(platforms);
@@ -134,15 +135,31 @@ public class MainApp extends Application {
             @Override
             public void handle(long now) {
                 player.move();
+                player.display();
+
                 generateEnvironment();
                 shiftEnvironment();
-                player.display();
-                platforms.forEach(Platform::display);
-                projectiles.forEach(Projectile::move);
-                projectiles.forEach(Projectile::display);
-                platforms.forEach(x -> x.collide(player));
+
+                platforms.forEach(x -> {
+                    x.display();
+                    x.collide(player);
+                });
+
+                projectiles.forEach(x -> {
+                    x.move();
+                    x.display();
+                    x.hit();
+                });
+
+                enemies.forEach(x -> {
+                    x.move();
+                    x.display();
+                    x.collide(player);
+                });
 
                 if(player.getLocation().y > layer.heightProperty().floatValue())
+                    falling = true;
+                if(gameOver)
                 {
                     if(score > loadHighscore())
                         try {
@@ -150,10 +167,8 @@ public class MainApp extends Application {
                         } catch (IOException e) {
                             System.out.println("Couldnt save highscore");
                         }
-                    falling = true;
-                }
-                if(gameOver)
                     stop();
+                }
             }
             
         };
@@ -173,6 +188,7 @@ public class MainApp extends Application {
         {
             fallingProgression++;
             platforms.forEach(x -> x.setLocationOffset(0, -player.getVelocity().y));
+            enemies.forEach(x -> x.setLocationOffset(0, -player.getVelocity().y));
             player.setLocationOffset(0, -20);
             if(fallingProgression >= Settings.FALLING_DURATION)
                 gameOver = true;
@@ -182,6 +198,7 @@ public class MainApp extends Application {
         {
             //shift entire environment
             platforms.forEach(x -> x.setLocationOffset(0, -player.getVelocity().y));
+            enemies.forEach(x -> x.setLocationOffset(0, -player.getVelocity().y));
             player.setLocationOffset(0, player.getVelocity().y * (-1));
             //adjust score
             score -= player.getVelocity().y;
@@ -207,6 +224,11 @@ public class MainApp extends Application {
         {
             layer.getChildren().remove(projectiles.get(0));
             projectiles.remove(0);
+        }
+        if(!enemies.isEmpty() && enemies.get(0).getLocation().y > Settings.SCENE_HEIGHT + Settings.ENEMY_HEIGHT)
+        {
+            layer.getChildren().remove(enemies.get(0));
+            enemies.remove(0);
         }
     }
 
@@ -246,6 +268,16 @@ public class MainApp extends Application {
 
     public void generateProjectile() {
         projectiles.add(new Projectile(layer, player.getLocation()));
+    }
+
+    public Layer getLayer()
+    {
+        return this.layer;
+    }
+
+    public void addEnemy(Enemy enemy)
+    {
+        enemies.add(enemy);
     }
 
 }

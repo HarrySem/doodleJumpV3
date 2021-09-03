@@ -10,11 +10,13 @@ public class InputManger implements EventHandler<KeyEvent>{
 
     private MainApp mainApp;
     private Player player;
+    private boolean shooting;
 
     public InputManger(MainApp mainApp)
     {
         this.mainApp = mainApp;
         this.player = mainApp.getPlayer();
+        this.shooting = false;
     }
 
     public void setPlayer(Player player)
@@ -35,10 +37,11 @@ public class InputManger implements EventHandler<KeyEvent>{
                 player.setRight();
             else if(input.equals(KeyCode.LEFT))
                 player.setLeft();
-            else if(input.equals(KeyCode.UP))
+            else if(input.equals(KeyCode.UP) && !shooting)
             {
                 player.shoot();
                 mainApp.generateProjectile();
+                shooting = true;
             }
         }
         else if(event.getEventType().equals(KeyEvent.KEY_RELEASED))
@@ -47,6 +50,8 @@ public class InputManger implements EventHandler<KeyEvent>{
                 player.releaseRight();
             else if(input.equals(KeyCode.LEFT))
                 player.releaseLeft();
+                else if(input.equals(KeyCode.UP))
+                    shooting = false;
         }
 
     }

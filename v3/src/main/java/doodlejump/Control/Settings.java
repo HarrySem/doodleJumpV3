@@ -3,8 +3,8 @@ package doodlejump.Control;
 public class Settings {
     public static final String HIGHSCORE_FILENAME = "v3\\src\\main\\java\\doodlejump\\highscore.txt";
 
-    public static final double SCENE_WIDTH = 1280;
-    public static final double SCENE_HEIGHT = 720;
+    public static final double SCENE_WIDTH = 1000;
+    public static final double SCENE_HEIGHT = 500;
 
     public static final double SPRITE_MAX_SPEED = -25;
     public static final double SPRITE_MAX_FORCE = 0.1;
@@ -16,7 +16,7 @@ public class Settings {
     public static final double PLATFORM_HIGHT = 10;
 
     public static final double SHIFT_LINE = 200;
-    public static final double BASE_LINE = 500;
+    public static final double BASE_LINE = SCENE_HEIGHT;
 
     public static final double RIGHT_ARROW_SPEED = 8;
     public static final double LEFT_ARROW_SPEED = -RIGHT_ARROW_SPEED;
@@ -61,7 +61,7 @@ public class Settings {
     public static final int SPAWNRATE_MOVING_VERTIKAL = 1;
     public static final int SPAWNRATE_PROPELLER = 1;
     public static final int SPAWNRATE_ROCKET = 1;
-    public static final int SPAWNRATE_EVENT = 1;
+    public static final int SPAWNRATE_EVENT = 10;
     public static final int SPAWNRATE_DISAPPEARING = 3;
     public static final int SPAWNRATE_EXPLODING = 3;
 
@@ -76,7 +76,7 @@ public class Settings {
     public static final int SPAWNSTART_DISAPPEARING = 3;
     public static final int SPAWNSTART_EXPLODING = 3;
 
-    public static final int EVENT_DURATION = 6;
+    public static final int EVENT_DURATION = 12;
 
     public static final int SHOT_DURATION = 5;
 
@@ -85,5 +85,12 @@ public class Settings {
     public static final double SHOT_HEIGHT = 10;
 
     public static final int FALLING_DURATION = 100;
+
+    public static final double ENEMY_WIDTH = 200;
+    public static final double ENEMY_HEIGHT = 100;
+    public static final double ENEMY_SPAWN_LEFT = SCENE_WIDTH/4;
+    public static final double ENEMY_SPAWN_RIGHT = SCENE_WIDTH*3/4;
+    public static final double ENEMY_SPEED = 5;
+    public static final int ENEMY_MOVEMENT_DURATION = 6;
 
 }
