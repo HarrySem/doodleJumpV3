@@ -1,17 +1,12 @@
 package doodlejump.Control;
 
-public class Vector2D { 
+public final class Vector2D { 
 
-    public double x;
-    public double y;
+    public final double x;
+    public final double y;
 
 
     public Vector2D(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public void set(double x, double y) {
         this.x = x;
         this.y = y;
     }
@@ -20,38 +15,37 @@ public class Vector2D {
         return (double) Math.sqrt(x * x + y * y);
     }
 
-    public void add(Vector2D v) {
-        x += v.x;
-        y += v.y;
+    public Vector2D add(Vector2D v) {
+        return new Vector2D(x+v.x, y+v.y);
     }
 
-    public void add(double x, double y) {
-        this.x += x;
-        this.y += y;
+    public Vector2D add(double x, double y) {
+        return new Vector2D(x+this.x, y+this.y);
     }
 
-    public void multiply(double n) {
-        x *= n;
-        y *= n;
+    public Vector2D multiply(double n) {
+        return new Vector2D(x*n, y*n);
     }
 
-    public void div(double n) {
-        x /= n;
-        y /= n;
+    public Vector2D div(double n) {
+        return new Vector2D(x/n, y/n);
     }
 
-    public void normalize() {
+    public Vector2D normalize() {
         double m = magnitude();
         if (m != 0 && m != 1) {
-            div(m);
+            return div(m);
         }
+        else
+            return this;
     }
 
-    public void limit(double max) {
+    public Vector2D limit(double max) {
         if (magnitude() > max) {
-            normalize();
-            multiply(max);
+            return normalize().multiply(max);
         }
+        else
+            return this;
     }
 
     static public Vector2D subtract(Vector2D v1, Vector2D v2) {

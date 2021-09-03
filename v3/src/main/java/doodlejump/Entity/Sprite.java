@@ -64,14 +64,14 @@ public abstract class Sprite extends Region{
     public void move() {
 
         // set velocity depending on acceleration
-        velocity.add(acceleration);
+        velocity = velocity.add(acceleration);
 
         // limit velocity to max speed
         if(velocity.y < Settings.SPRITE_MAX_SPEED)
             velocity = new Vector2D(velocity.x, Settings.SPRITE_MAX_SPEED);
 
         // change location depending on velocity
-        location.add(velocity);
+        location = location.add(velocity);
 
         // angle: towards velocity (ie target)
         //angle = velocity.heading2D();
@@ -114,14 +114,12 @@ public abstract class Sprite extends Region{
     }
 
     public void setLocation( double x, double y) {
-        location.x = x;
-        location.y = y;
+        location = new Vector2D(x, y);
         clearCache();
     }
 
     public void setLocationOffset( double x, double y) {
-        location.x += x;
-        location.y += y;
+        location = location.add(x, y);
         clearCache();
     }
 

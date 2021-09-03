@@ -43,6 +43,7 @@ public class PlatformGenerator {
         //Determining Location of next Platform
         if(event)
         {
+            System.out.println("event");
             eventProgression++;
             location = nextLocation(true);
             if(eventProgression >= Settings.EVENT_DURATION)

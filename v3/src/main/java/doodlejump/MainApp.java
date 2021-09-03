@@ -40,8 +40,8 @@ public class MainApp extends Application {
     private double score, highscore;
     private Label scoreLabel, highscoreLabel;
     private MainMenuController mainMenuController;
-    private boolean eventLeft;
     private PlatformGenerator platformGenerator;
+    private List<Projectile> projectiles;
 
     public MainApp()
     {
@@ -56,8 +56,8 @@ public class MainApp extends Application {
         highscoreLabel.setLayoutY(50);
         this.mainMenuController = new MainMenuController(this);
         this.spwanDistance = 15;
-        this.eventLeft = false;
         this.difficultyStage = 0;
+        projectiles = new ArrayList<>();
     }
 
     private void increaseDifficulty()
@@ -134,6 +134,8 @@ public class MainApp extends Application {
                 shiftEnvironment();
                 player.display();
                 platforms.forEach(Platform::display);
+                projectiles.forEach(Projectile::move);
+                projectiles.forEach(Projectile::display);
 
                 if(player.getLocation().y > layer.heightProperty().floatValue())
                 {
@@ -176,10 +178,20 @@ public class MainApp extends Application {
                 increaseDifficulty();
         }
         //remove platform out of frame
+        cleanUp();
+    }
+
+    private void cleanUp()
+    {
         if(platforms.get(0).getLocation().y > baseLine)
         {
             layer.getChildren().remove(platforms.get(0));
-            platforms.remove(platforms.get(0));
+            platforms.remove(0);
+        }
+        if(!projectiles.isEmpty() && projectiles.get(0).getLocation().y < 0)
+        {
+            layer.getChildren().remove(projectiles.get(0));
+            projectiles.remove(0);
         }
     }
 
@@ -213,5 +225,9 @@ public class MainApp extends Application {
         platforms.clear();
         startGame();
 	}
+
+    public void generateProjectile() {
+        projectiles.add(new Projectile(layer, player.getLocation()));
+    }
 
 }

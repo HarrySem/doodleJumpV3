@@ -76,6 +76,12 @@ public class Settings {
     public static final int SPAWNSTART_DISAPPEARING = 3;
     public static final int SPAWNSTART_EXPLODING = 3;
 
-    public static final int EVENT_DURATION = 0;
+    public static final int EVENT_DURATION = 6;
+
+    public static final int SHOT_DURATION = 5;
+
+    public static final double SHOT_VELOCITY = -10;
+    public static final double SHOT_WIDTH = 5;
+    public static final double SHOT_HEIGHT = 10;
 
 }

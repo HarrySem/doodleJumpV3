@@ -26,25 +26,26 @@ public class InputManger implements EventHandler<KeyEvent>{
     public void handle(KeyEvent event) {
         KeyCode input = event.getCode();
         if(input.equals(KeyCode.ESCAPE))
-        {
             mainApp.close();
-        }
         else if(input.equals(KeyCode.R))
-        {
             mainApp.restart();
-        }
-        if(event.getEventType().equals(KeyEvent.KEY_PRESSED))
+        else if(event.getEventType().equals(KeyEvent.KEY_PRESSED))
         {
             if(input.equals(KeyCode.RIGHT))
                 player.setRight();
-            if(input.equals(KeyCode.LEFT))
+            else if(input.equals(KeyCode.LEFT))
                 player.setLeft();
+            else if(input.equals(KeyCode.UP))
+            {
+                player.shoot();
+                mainApp.generateProjectile();
+            }
         }
         else if(event.getEventType().equals(KeyEvent.KEY_RELEASED))
         {
             if(input.equals(KeyCode.RIGHT))
                 player.releaseRight();
-            if(input.equals(KeyCode.LEFT))
+            else if(input.equals(KeyCode.LEFT))
                 player.releaseLeft();
         }
 

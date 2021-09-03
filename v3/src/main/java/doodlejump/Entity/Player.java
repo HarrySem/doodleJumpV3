@@ -9,15 +9,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public class Player extends Sprite{
-    private boolean moveRight;
-    private boolean moveLeft;
-    private double rightBorder;
-    private boolean bouncing;
-    private int bounceProgression;
-    private boolean propeller;
-    private int propellerProgression;
-    private boolean rocket;
-    private int rocketProgession;
+    private boolean moveRight, moveLeft, bouncing, propeller, rocket, shoot;
+    private double rightBorder, bounceProgression, propellerProgression, rocketProgession, shotProgression;
 
     public Player(Layer layer, Vector2D location, double width, double height, double rightBorder) 
     {
@@ -31,6 +24,8 @@ public class Player extends Sprite{
         this.propellerProgression = 0;
         this.rocket = false;
         this.rocketProgession = 0;
+        this.shoot = false;
+        this.shotProgression = 0;
     }
 
     @Override
@@ -54,6 +49,17 @@ public class Player extends Sprite{
             group.getChildren().add(circle);
             circle.setLayoutX(Settings.ROCKET_WIDTH/2);
             circle.setLayoutY(Settings.ROCKET_HEIGHT/2);
+            return group;
+        }
+        else if(shoot)
+        {
+            Group group = new Group();
+            Rectangle rectangle = new Rectangle(width, height);
+            Rectangle nose = new Rectangle(width/2, height/2);
+            group.getChildren().add(rectangle);
+            group.getChildren().add(nose);
+            nose.setLayoutX(width/4);
+            nose.setLayoutY(-height/2);
             return group;
         }
         else
@@ -127,6 +133,15 @@ public class Player extends Sprite{
                 updateView();
             }
         }
+        if(shoot && !rocket && !propeller)
+        {
+            shotProgression++;
+            if(shotProgression >= Settings.SHOT_DURATION)
+            {
+                shoot = false;
+                updateView();
+            }
+        }
     }
 
     public void jump() {
@@ -161,6 +176,13 @@ public class Player extends Sprite{
             velocity = new Vector2D(0, Settings.ROCKET_SPEED);
             updateView();
         }
+    }
+
+    public void shoot()
+    {
+        shoot = true;
+        shotProgression = 0;
+        updateView();
     }
 
 }
