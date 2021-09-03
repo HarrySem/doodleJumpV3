@@ -40,10 +40,11 @@ public class MainApp extends Application {
     private double score, highscore;
     private Label scoreLabel, highscoreLabel;
     private MainMenuController mainMenuController;
+    private boolean eventLeft;
+    private PlatformGenerator platformGenerator;
 
     public MainApp()
     {
-        this.difficultyStage = 0;
         this.platforms = new ArrayList<>();
         this.shiftLine = Settings.SHIFT_LINE;
         this.baseLine = Settings.BASE_LINE;
@@ -54,14 +55,16 @@ public class MainApp extends Application {
         this.highscoreLabel = new Label("Highscore " + (int)highscore);
         highscoreLabel.setLayoutY(50);
         this.mainMenuController = new MainMenuController(this);
-        this.difficultyStage = 1;
         this.spwanDistance = 15;
+        this.eventLeft = false;
+        this.difficultyStage = 0;
     }
 
     private void increaseDifficulty()
     {
         difficultyStage++;
-        spwanDistance = difficultyStage*10;
+        platformGenerator.increaseDifficulty();
+        spwanDistance += 10;
         if(spwanDistance > Settings.MAX_SPAWNDISTANCE)
             spwanDistance = Settings.MAX_SPAWNDISTANCE;
     }
@@ -109,8 +112,13 @@ public class MainApp extends Application {
         Scene scene = new Scene(layer);
         scene.addEventHandler(KeyEvent.ANY, inputManger);
         primaryStage.setScene(scene);
-        //generateStartingScenario();       //commment out for test purposes
-        generateTestScenario();
+        this.platformGenerator = new PlatformGenerator(layer);
+
+        //generate starting scenario
+        player = platformGenerator.generateStartingScenario(platforms);
+        //player = platformGenerator.generateTestScenario(platforms);
+
+        inputManger.setPlayer(player);
         primaryStage.show();
         startGameLoop();
     }
@@ -121,8 +129,6 @@ public class MainApp extends Application {
 
             @Override
             public void handle(long now) {
-                System.out.println(player.getVelocity().y);
-
                 player.move();
                 generateEnvironment();
                 shiftEnvironment();
@@ -146,81 +152,11 @@ public class MainApp extends Application {
         gameloop.start();
     }
 
-    private void generateStartingScenario() {
-        player = new Player(layer, new Vector2D(layer.getPrefWidth()/2, layer.getPrefHeight()/2), 20, 40, layer.getWidth());
-        inputManger.setPlayer(player);
-        player.display();
-        platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, player.getLocation().y+player.getHeight()/2),
-        Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
-        platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, 150), 
-        Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
-        platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, 80), 
-        Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
-    }
-
-    private void generateTestScenario()
-    {
-        player = new Player(layer, new Vector2D(layer.getPrefWidth()/2, layer.getPrefHeight()/2), 20, 40, layer.getWidth());
-        inputManger.setPlayer(player);
-        player.display();
-        platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, player.getLocation().y+player.getHeight()/2),
-        Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
-        platforms.add(new RocketPlatform(layer, new Vector2D(player.getLocation().x+350, player.getLocation().y-100),
-        Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
-    }
-
     private void generateEnvironment()
     {
         //generateEnvironmentLinear();
         if(platforms.get(platforms.size()-1).getLocation().y > spwanDistance)
-        {
-            platforms.add(nextPlatform());
-        }
-    }
-
-    private Platform nextPlatform()
-    {            //TODO: add different platform options (disappearing/ moving/ etc) -> spawnrate dependent on difficultyStage
-        Random random = new Random();
-        Vector2D location = new Vector2D(random.nextInt((int)(layer.getPrefWidth() - 2*Settings.PLATFORM_BUFFER)) + Settings.PLATFORM_BUFFER, 0);
-        switch(difficultyStage)
-        {
-            case 1:
-
-                return new Platform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
-
-
-            default:
-            int i = random.nextInt(20);
-            if(i == 0)
-                return new SpringPlatform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
-            else if(i == 1)
-                return new BouncePlatform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
-            else if(i == 2)
-                return new DisappearingPlatform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
-            else if(i == 3)
-                return new ExplodingPlatform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
-            else if(i == 4)
-                return new MovingPlatformHorizontal(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
-            else if(i == 5)
-                return new MovingPlatformVertical(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
-            else if(i == 6)
-                return new PropellerPlatform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
-            else if(i == 7)
-                return new RocketPlatform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
-            else
-                return new Platform(layer, location, Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT);
-        }
-    }
-
-    //test method
-    private void generateEnvironmentLinear()
-    {
-        double spwanDistance = 100;
-        if(platforms.get(platforms.size()-1).getLocation().y > spwanDistance)
-        {
-            platforms.add(new Platform(layer, new Vector2D(layer.getPrefWidth()/2, 0),
-             Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
-        }
+            platforms.add(platformGenerator.nextPlatform());
     }
 
     private void shiftEnvironment()

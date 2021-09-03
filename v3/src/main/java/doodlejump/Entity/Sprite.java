@@ -12,9 +12,6 @@ public abstract class Sprite extends Region{
     Vector2D velocity;
     Vector2D acceleration;
 
-    double maxForce = Settings.SPRITE_MAX_FORCE;
-    double maxSpeed = Settings.SPRITE_MAX_SPEED;
-
     Node view;
 
     // view dimensions
