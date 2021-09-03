@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -42,6 +41,8 @@ public class MainApp extends Application {
     private MainMenuController mainMenuController;
     private PlatformGenerator platformGenerator;
     private List<Projectile> projectiles;
+    private boolean falling, gameOver;
+    private int fallingProgression;
 
     public MainApp()
     {
@@ -58,6 +59,9 @@ public class MainApp extends Application {
         this.spwanDistance = 15;
         this.difficultyStage = 0;
         projectiles = new ArrayList<>();
+        this.falling = false;
+        this.gameOver = false;
+        this.fallingProgression = 0;
     }
 
     private void increaseDifficulty()
@@ -136,6 +140,7 @@ public class MainApp extends Application {
                 platforms.forEach(Platform::display);
                 projectiles.forEach(Projectile::move);
                 projectiles.forEach(Projectile::display);
+                platforms.forEach(x -> x.collide(player));
 
                 if(player.getLocation().y > layer.heightProperty().floatValue())
                 {
@@ -145,9 +150,10 @@ public class MainApp extends Application {
                         } catch (IOException e) {
                             System.out.println("Couldnt save highscore");
                         }
-                    stop();
+                    falling = true;
                 }
-                    platforms.forEach(x -> x.collide(player));
+                if(gameOver)
+                    stop();
             }
             
         };
@@ -163,10 +169,19 @@ public class MainApp extends Application {
 
     private void shiftEnvironment()
     {
-        if(player.getLocation().y < shiftLine)
+        if(falling)
+        {
+            fallingProgression++;
+            platforms.forEach(x -> x.setLocationOffset(0, -player.getVelocity().y));
+            player.setLocationOffset(0, -20);
+            if(fallingProgression >= Settings.FALLING_DURATION)
+                gameOver = true;
+
+        }
+        else if(player.getLocation().y < shiftLine)
         {
             //shift entire environment
-            platforms.forEach(x -> x.setLocationOffset(0, player.getVelocity().y * (-1)));
+            platforms.forEach(x -> x.setLocationOffset(0, -player.getVelocity().y));
             player.setLocationOffset(0, player.getVelocity().y * (-1));
             //adjust score
             score -= player.getVelocity().y;
@@ -222,6 +237,9 @@ public class MainApp extends Application {
         highscoreLabel.setLayoutY(50);
         difficultyStage = 1;
         spwanDistance = 15;
+        falling = false;
+        gameOver = false;
+        fallingProgression = 0;
         platforms.clear();
         startGame();
 	}

@@ -59,7 +59,7 @@ public class Settings {
     public static final int SPAWNRATE_BOUNCE = 2;
     public static final int SPAWNRATE_MOVING_HORIZONTAL = 2;
     public static final int SPAWNRATE_MOVING_VERTIKAL = 1;
-    public static final int SPAWNRATE_PROPELLER = 2;
+    public static final int SPAWNRATE_PROPELLER = 1;
     public static final int SPAWNRATE_ROCKET = 1;
     public static final int SPAWNRATE_EVENT = 1;
     public static final int SPAWNRATE_DISAPPEARING = 3;
@@ -83,5 +83,7 @@ public class Settings {
     public static final double SHOT_VELOCITY = -10;
     public static final double SHOT_WIDTH = 5;
     public static final double SHOT_HEIGHT = 10;
+
+    public static final int FALLING_DURATION = 100;
 
 }
