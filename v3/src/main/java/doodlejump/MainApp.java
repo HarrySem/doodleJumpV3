@@ -37,7 +37,7 @@ public class MainApp extends Application {
     private Label scoreLabel, highscoreLabel;
     private MainMenuController mainMenuController;
     private PlatformGenerator platformGenerator;
-    private boolean falling, gameOver;
+    private boolean gameOver;
     private int fallingProgression;
     private List<Platform> platforms;
     private List<Enemy> enemies;
@@ -59,7 +59,6 @@ public class MainApp extends Application {
         this.spwanDistance = 15;
         this.difficultyStage = 0;
         this.projectiles = new ArrayList<>();
-        this.falling = false;
         this.gameOver = false;
         this.fallingProgression = 0;
         this.enemies = new ArrayList<>();
@@ -158,7 +157,7 @@ public class MainApp extends Application {
                 });
 
                 if(player.getLocation().y > layer.heightProperty().floatValue())
-                    falling = true;
+                    player.setFalling(true);;
                 if(gameOver)
                 {
                     if(score > loadHighscore())
@@ -184,7 +183,7 @@ public class MainApp extends Application {
 
     private void shiftEnvironment()
     {
-        if(falling)
+        if(player.getFalling())
         {
             fallingProgression++;
             platforms.forEach(x -> x.setLocationOffset(0, -player.getVelocity().y));
@@ -259,7 +258,6 @@ public class MainApp extends Application {
         highscoreLabel.setLayoutY(50);
         difficultyStage = 1;
         spwanDistance = 15;
-        falling = false;
         gameOver = false;
         fallingProgression = 0;
         platforms.clear();

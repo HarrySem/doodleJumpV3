@@ -9,7 +9,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public class Player extends Sprite{
-    private boolean moveRight, moveLeft, bouncing, propeller, rocket, shoot;
+    private boolean moveRight, moveLeft, bouncing, propeller, rocket, shoot, falling;
     private double rightBorder, bounceProgression, propellerProgression, rocketProgession, shotProgression;
 
     public Player(Layer layer, Vector2D location, double width, double height, double rightBorder) 
@@ -26,6 +26,7 @@ public class Player extends Sprite{
         this.rocketProgession = 0;
         this.shoot = false;
         this.shotProgression = 0;
+        this.falling = false;
     }
 
     @Override
@@ -183,6 +184,16 @@ public class Player extends Sprite{
         shoot = true;
         shotProgression = 0;
         updateView();
+    }
+
+    public void setFalling(boolean falling)
+    {
+        this.falling = falling;
+    }
+
+    public boolean getFalling()
+    {
+        return falling;
     }
 
 }

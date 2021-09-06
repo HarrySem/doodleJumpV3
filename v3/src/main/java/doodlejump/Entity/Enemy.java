@@ -68,6 +68,9 @@ public class Enemy extends Platform{
                 acceleration = new Vector2D(0, Settings.GRAVITY*2);
                 player.jump();
             }
+        else if(player.velocity.y < 0 && player.getHighest() < getLowest() && player.getHighest() > getHighest() &&
+            player.getMostRight() > getMostLeft() && player.getMostLeft() < getMostRight())
+                player.setFalling(true);
     }
     
 }
