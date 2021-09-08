@@ -9,7 +9,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public class Player extends Sprite{
-    private boolean moveRight, moveLeft, bouncing, propeller, rocket, shoot, falling;
+    private boolean moveRight, moveLeft, bouncing, propeller, rocket, shoot, falling, dead;
     private double rightBorder, bounceProgression, propellerProgression, rocketProgession, shotProgression;
 
     public Player(Layer layer, Vector2D location, double width, double height, double rightBorder) 
@@ -27,6 +27,7 @@ public class Player extends Sprite{
         this.shoot = false;
         this.shotProgression = 0;
         this.falling = false;
+        this.dead = false;
     }
 
     @Override
@@ -63,6 +64,11 @@ public class Player extends Sprite{
             nose.setLayoutY(-height/2);
             return group;
         }
+        else if(dead)
+        {
+            return new Rectangle(width, height);
+            //TODO: make player look dead (stars etc.)
+        }
         else
             return new Rectangle(width, height);
     }
@@ -92,6 +98,8 @@ public class Player extends Sprite{
     public void move()
     {
         super.move();
+        if(dead)
+            return;
         if(moveRight)
             setLocationOffset(Settings.RIGHT_ARROW_SPEED, 0);
         else if(moveLeft)
@@ -194,6 +202,16 @@ public class Player extends Sprite{
     public boolean getFalling()
     {
         return falling;
+    }
+
+    public void setDead()
+    {
+        dead = true;
+    }
+
+    public boolean isDead()
+    {
+        return dead;
     }
 
 }

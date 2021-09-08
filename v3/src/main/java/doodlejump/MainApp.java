@@ -141,19 +141,21 @@ public class MainApp extends Application {
 
                 platforms.forEach(x -> {
                     x.display();
-                    x.collide(player);
+                    if(!player.isDead())
+                        x.collide(player);
                 });
 
                 projectiles.forEach(x -> {
                     x.move();
                     x.display();
-                    x.hit();
+                    x.hit(enemies);
                 });
 
                 enemies.forEach(x -> {
                     x.move();
                     x.display();
-                    x.collide(player);
+                    if(!player.isDead())
+                        x.collide(player);
                 });
 
                 if(player.getLocation().y > layer.heightProperty().floatValue())

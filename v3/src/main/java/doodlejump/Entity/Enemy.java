@@ -13,17 +13,22 @@ public class Enemy extends Platform{
     private int movementProgression;
     private int direction;
     private Random random;
+    private boolean shot;
 
     public Enemy(Layer layer, Vector2D location) {
         super(layer, location, Settings.ENEMY_WIDTH, Settings.ENEMY_HEIGHT);
         this.random = new Random();
         this.direction = random.nextInt(3);
         this.movementProgression = 0;
+        this.shot = false;
     }
 
     @Override
     public Node createView() {
-        return new Rectangle(width, height, Paint.valueOf("purple"));
+        Rectangle rectangle = new Rectangle(width, height, Paint.valueOf("purple"));
+        if(shot)
+            rectangle.setOpacity(0);
+        return rectangle;
     }
 
     @Override
@@ -62,15 +67,28 @@ public class Enemy extends Platform{
 
     @Override
     public void collide(Player player) {
-        if(player.velocity.y > 0 && player.getLowest() > getHighest() && player.getLowest() < getLowest() && 
+        
+        if(player.getLowest() < getHighest() || shot)
+            return;
+        else if(player.getHighest() < getLowest() && player.getLowest() > getHighest() + Settings.PLATFORM_HIGHT &&
             player.getMostRight() > getMostLeft() && player.getMostLeft() < getMostRight())
-            {
-                acceleration = new Vector2D(0, Settings.GRAVITY*2);
-                player.jump();
-            }
-        else if(player.velocity.y < 0 && player.getHighest() < getLowest() && player.getHighest() > getHighest() &&
-            player.getMostRight() > getMostLeft() && player.getMostLeft() < getMostRight())
-                player.setFalling(true);
+        {
+            player.setDead();
+        }
+        else if(player.velocity.y > 0 && player.getLowest() > getHighest() && player.getLowest() < getHighest()
+         + Settings.PLATFORM_HIGHT &&
+        player.getMostRight() > getMostLeft() && player.getMostLeft() < getMostRight())
+        {
+            acceleration = new Vector2D(0, Settings.GRAVITY*2);
+            player.jump();
+        }
+
+    }
+
+    public void shot()
+    {
+        shot = true;
+        updateView();
     }
     
 }

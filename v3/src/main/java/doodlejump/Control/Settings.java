@@ -80,7 +80,7 @@ public class Settings {
 
     public static final int SHOT_DURATION = 5;
 
-    public static final double SHOT_VELOCITY = -10;
+    public static final double SHOT_VELOCITY = -15;
     public static final double SHOT_WIDTH = 5;
     public static final double SHOT_HEIGHT = 10;
 
@@ -90,7 +90,7 @@ public class Settings {
     public static final double ENEMY_HEIGHT = 100;
     public static final double ENEMY_SPAWN_LEFT = SCENE_WIDTH/4;
     public static final double ENEMY_SPAWN_RIGHT = SCENE_WIDTH*3/4;
-    public static final double ENEMY_SPEED = 5;
+    public static final double ENEMY_SPEED = 2;
     public static final int ENEMY_MOVEMENT_DURATION = 6;
 
 }

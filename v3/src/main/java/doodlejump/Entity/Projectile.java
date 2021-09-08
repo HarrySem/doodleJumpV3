@@ -1,5 +1,7 @@
 package doodlejump.Entity;
 
+import java.util.List;
+
 import doodlejump.Control.Settings;
 import doodlejump.Control.Vector2D;
 import javafx.scene.Node;
@@ -17,9 +19,14 @@ public class Projectile extends Sprite{
         return new Rectangle(width, height, Paint.valueOf("red"));
     }
 
-    public void hit()
+    public void hit(List<Enemy> enemies)
     {
-        //TODO: check for hits on enemies test
+        enemies.forEach(x -> {
+            if(getHighest() < x.getLowest() && getMostLeft() < x.getMostRight() && getMostRight() > x.getMostLeft())
+            {
+                x.shot();
+            }
+        });
     }
     
 }
