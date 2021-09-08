@@ -23,9 +23,8 @@ public class PropellerPlatform extends Platform{
         else
         {
             Group group = new Group();
-            Rectangle rectangle = (Rectangle) super.createView();
             Rectangle propeller = new Rectangle(20, 20, Paint.valueOf("green"));
-            group.getChildren().add(rectangle);
+            group.getChildren().add(super.createView());
             group.getChildren().add(propeller);
             propeller.setLayoutY(-Settings.PROPELLER_HEIGHT);
             propeller.setLayoutX(Settings.PROPELLER_WIDTH);

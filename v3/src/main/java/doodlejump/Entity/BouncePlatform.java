@@ -19,8 +19,8 @@ public class BouncePlatform extends Platform{
         Rectangle bounce = new Rectangle(Settings.BOUNCE_WIDTH, Settings.BOUNCE_HEIGHT);
         bounce.setFill(Paint.valueOf("blue"));
         group.getChildren().add(bounce);
-        group.getChildren().add(new Rectangle(width, height));
-        bounce.setLayoutY(-10);
+        group.getChildren().add(super.createView());
+        bounce.setLayoutY(-Settings.BOUNCE_HEIGHT);
         bounce.setLayoutX(Settings.PLATFORM_WIDTH-Settings.BOUNCE_WIDTH);
         return group;
     }

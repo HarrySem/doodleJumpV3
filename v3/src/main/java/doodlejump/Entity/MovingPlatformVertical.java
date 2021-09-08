@@ -23,9 +23,7 @@ public class MovingPlatformVertical extends Platform{
 
     @Override
     public Node createView() {
-        Rectangle rectangle = (Rectangle)super.createView();
-        rectangle.setFill(Paint.valueOf("blue"));
-        return rectangle;
+        return super.createView();
     }
 
     @Override

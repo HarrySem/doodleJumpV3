@@ -1,10 +1,13 @@
 package doodlejump.Entity;
 
+import java.io.File;
 import java.util.List;
 
 import doodlejump.Control.Settings;
 import doodlejump.Control.Vector2D;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
@@ -16,7 +19,7 @@ public class Projectile extends Sprite{
 
     @Override
     public Node createView() {
-        return new Rectangle(width, height, Paint.valueOf("red"));
+        return new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\snwoball.png").toURI().toString(), width, height, false, true));
     }
 
     public void hit(List<Enemy> enemies)

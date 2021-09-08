@@ -17,7 +17,7 @@ public class Platform extends Sprite{
     @Override
     public Node createView() {
         //return new Rectangle(width, height);
-        return new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\platformSmall.png").toURI().toString(), width, height, true, true));
+        return new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\platform.png").toURI().toString(), width, height, true, true));
     }
 
     public void collide(Player player)

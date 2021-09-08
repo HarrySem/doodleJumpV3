@@ -23,9 +23,8 @@ public class RocketPlatform extends Platform{
         else
         {
             Group group = new Group();
-            Rectangle rectangle = (Rectangle) super.createView();
             Rectangle propeller = new Rectangle(Settings.ROCKET_WIDTH, Settings.ROCKET_HEIGHT, Paint.valueOf("purple"));
-            group.getChildren().add(rectangle);
+            group.getChildren().add(super.createView());
             group.getChildren().add(propeller);
             propeller.setLayoutY(-Settings.ROCKET_HEIGHT);
             propeller.setLayoutX(Settings.ROCKET_WIDTH);

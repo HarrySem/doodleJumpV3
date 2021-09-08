@@ -1,7 +1,11 @@
 package doodlejump.Entity;
 
+import java.io.File;
+
 import doodlejump.Control.Vector2D;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
 public class DisappearingPlatform extends Platform{
@@ -14,9 +18,7 @@ public class DisappearingPlatform extends Platform{
     }
     @Override
     public Node createView() {
-        Rectangle rectangle = (Rectangle)super.createView();
-        rectangle.setOpacity(0.5);
-        return rectangle;
+        return new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\disappearingPlatform.png").toURI().toString(), width, height, true, true));
     }
 
     @Override

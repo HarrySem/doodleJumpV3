@@ -82,8 +82,8 @@ public class Settings {
     public static final int SHOT_DURATION = 5;
 
     public static final double SHOT_VELOCITY = -15;
-    public static final double SHOT_WIDTH = 5;
-    public static final double SHOT_HEIGHT = 10;
+    public static final double SHOT_WIDTH = 100;
+    public static final double SHOT_HEIGHT = 200;
 
     public static final int FALLING_DURATION = 100;
 

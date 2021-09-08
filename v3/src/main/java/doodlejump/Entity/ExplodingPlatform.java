@@ -1,7 +1,11 @@
 package doodlejump.Entity;
 
+import java.io.File;
+
 import doodlejump.Control.Vector2D;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
@@ -20,20 +24,12 @@ public class ExplodingPlatform extends Platform{
 
     @Override
     public Node createView() {
-        Rectangle rectangle = (Rectangle)super.createView();
-        if(costume == 3)
-        {
-            rectangle.setOpacity(0);
-            disappeared = true;
-            layer.getChildren().remove(this);
-        }
-        else if(costume == 2)
-            rectangle.setFill(Paint.valueOf("purple"));
+        if(costume == 2)
+            return new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\brokenPlatform.png").toURI().toString(), width, height, true, true));
         else if(costume == 1)
-            rectangle.setFill(Paint.valueOf("red"));
+            return new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\disappearingPlatform.png").toURI().toString(), width, height, true, true));
         else
-            rectangle.setFill(Paint.valueOf("orange"));
-        return rectangle;
+            return super.createView();
     }
 
     @Override
@@ -49,7 +45,8 @@ public class ExplodingPlatform extends Platform{
         if(frames > 300 && costume != 3)
         {
             costume = 3;
-            updateView();
+            layer.getChildren().remove(this);
+            disappeared = true;
         }
         else if(frames > 200 && costume != 2)
         {

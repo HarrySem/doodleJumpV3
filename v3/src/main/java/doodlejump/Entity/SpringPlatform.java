@@ -19,8 +19,8 @@ public class SpringPlatform extends Platform{
         Rectangle spring = new Rectangle(Settings.SPRINGS_WIDTH, Settings.SPRING_HEIGHT);
         spring.setFill(Paint.valueOf("red"));
         group.getChildren().add(spring);
-        group.getChildren().add(new Rectangle(width, height));
-        spring.setLayoutY(-10);
+        group.getChildren().add(super.createView());
+        spring.setLayoutY(-Settings.SPRING_HEIGHT);
         return group;
     }
 
