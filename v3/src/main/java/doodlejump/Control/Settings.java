@@ -2,6 +2,7 @@ package doodlejump.Control;
 
 public class Settings {
     public static final String HIGHSCORE_FILENAME = "v3\\src\\main\\java\\doodlejump\\highscore.txt";
+    public static final String PLATFORM_IMG_FILENAME = "v3\\src\\main\\resources\\img\\platformMedium.png";
 
     public static final double SCENE_WIDTH = 1000;
     public static final double SCENE_HEIGHT = 500;

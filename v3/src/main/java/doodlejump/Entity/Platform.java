@@ -1,7 +1,11 @@
 package doodlejump.Entity;
 
+import java.io.File;
+
 import doodlejump.Control.Vector2D;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
 public class Platform extends Sprite{
@@ -12,7 +16,8 @@ public class Platform extends Sprite{
 
     @Override
     public Node createView() {
-        return new Rectangle(width, height);
+        //return new Rectangle(width, height);
+        return new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\platformSmall.png").toURI().toString(), width, height, true, true));
     }
 
     public void collide(Player player)
