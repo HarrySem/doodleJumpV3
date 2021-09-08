@@ -1,5 +1,7 @@
 package doodlejump.Entity;
 
+import java.io.File;
+
 import doodlejump.Control.Settings;
 import doodlejump.Control.Vector2D;
 import javafx.scene.Group;
@@ -37,11 +39,11 @@ public class Player extends Sprite{
         if(propeller)
         {
             Group group = new Group();
-            Rectangle rectangle = new Rectangle(width, height);
             Rectangle propeller = new Rectangle(Settings.PROPELLER_WIDTH, Settings.PROPELLER_HEIGHT, Paint.valueOf("green"));
-            group.getChildren().add(rectangle);
+            group.getChildren().add(new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\penguin.png").toURI().toString(), width, height, true, true)));
             group.getChildren().add(propeller);
             propeller.setLayoutY(-Settings.PROPELLER_HEIGHT);
+            propeller.setLayoutX(10);
             return group;
         }
         else if(rocket)
@@ -58,9 +60,8 @@ public class Player extends Sprite{
         else if(shoot)
         {
             Group group = new Group();
-            Rectangle rectangle = new Rectangle(width, height);
             Rectangle nose = new Rectangle(width/2, height/2);
-            group.getChildren().add(rectangle);
+            group.getChildren().add(new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\penguin.png").toURI().toString(), width, height, true, true)));
             group.getChildren().add(nose);
             nose.setLayoutX(width/4);
             nose.setLayoutY(-height/2);
@@ -72,7 +73,7 @@ public class Player extends Sprite{
             //TODO: make player look dead (stars etc.)
         }
         else
-            return new Rectangle(width, height);
+        return new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\penguin.png").toURI().toString(), width, height, true, true));
     }
 
     public void setRight()

@@ -15,6 +15,8 @@ public class Settings {
 
     public static final double PLATFORM_WIDTH = 70;
     public static final double PLATFORM_HIGHT = 10;
+    public static final double PLAYER_WIDTH = 40;
+    public static final double PLAYER_HEIGHT = 50;
 
     public static final double SHIFT_LINE = 200;
     public static final double BASE_LINE = SCENE_HEIGHT;
@@ -93,5 +95,6 @@ public class Settings {
     public static final double ENEMY_SPAWN_RIGHT = SCENE_WIDTH*3/4;
     public static final double ENEMY_SPEED = 2;
     public static final int ENEMY_MOVEMENT_DURATION = 6;
+
 
 }

@@ -128,7 +128,7 @@ public class PlatformGenerator {
     }
 
     public Player generateStartingScenario(List<Platform> platforms) {
-        Player player = new Player(layer, new Vector2D(layer.getPrefWidth()/2, layer.getPrefHeight()/2), 20, 40, layer.getWidth());
+        Player player = new Player(layer, new Vector2D(layer.getPrefWidth()/2, layer.getPrefHeight()/2), Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, layer.getWidth());
         platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, player.getLocation().y+player.getHeight()/2),
         Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
         platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, 150), 
@@ -140,7 +140,7 @@ public class PlatformGenerator {
 
     public Player generateTestScenario(List<Platform> platforms)
     {
-        Player player = new Player(layer, new Vector2D(layer.getPrefWidth()/2, layer.getPrefHeight()/2), 20, 40, layer.getWidth());
+        Player player = new Player(layer, new Vector2D(layer.getPrefWidth()/2, layer.getPrefHeight()/2), Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT, layer.getWidth());
         platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, player.getLocation().y+player.getHeight()/2),
         Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
         platforms.add(new RocketPlatform(layer, new Vector2D(player.getLocation().x+350, player.getLocation().y-100),
