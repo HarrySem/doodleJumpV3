@@ -3,6 +3,8 @@ package doodlejump.Entity;
 import java.io.File;
 import java.util.Random;
 
+
+import doodlejump.Boundary.SoundManager;
 import doodlejump.Control.Settings;
 import doodlejump.Control.Vector2D;
 import javafx.scene.Node;
@@ -15,13 +17,15 @@ public class Enemy extends Platform{
     private int direction;
     private Random random;
     private boolean shot;
+    private SoundManager soundaManager;
 
-    public Enemy(Layer layer, Vector2D location) {
+    public Enemy(Layer layer, Vector2D location, SoundManager soundaManager) {
         super(layer, location, Settings.ENEMY_WIDTH, Settings.ENEMY_HEIGHT);
         this.random = new Random();
         this.direction = random.nextInt(3);
         this.movementProgression = 0;
         this.shot = false;
+        this.soundaManager = soundaManager;
     }
 
     @Override
@@ -93,6 +97,7 @@ public class Enemy extends Platform{
     {
         layer.getChildren().remove(this);
         shot = true;
+        soundaManager.playHit();
     }
     
 }

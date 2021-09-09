@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import doodlejump.MainApp;
+import doodlejump.Boundary.SoundManager;
 import doodlejump.Entity.*;
 
 
@@ -15,6 +16,7 @@ public class PlatformGenerator {
     private Layer layer;
     private boolean event, eventLeft;
     private int eventProgression;
+    private SoundManager soundaManager;
 
     public PlatformGenerator(MainApp mainApp)
     {
@@ -25,6 +27,7 @@ public class PlatformGenerator {
         this.event = true;
         this.eventLeft = true;
         this.eventProgression = 0;
+        this.soundaManager = new SoundManager();
     }
 
     public void setSeed(long seed)
@@ -57,9 +60,9 @@ public class PlatformGenerator {
             else if(eventProgression == Settings.EVENT_DURATION/4)
             {
                 if(eventLeft)
-                    mainApp.addEnemy(new Enemy(layer, new Vector2D(Settings.ENEMY_SPAWN_LEFT, -Settings.ENEMY_HEIGHT)));
+                    mainApp.addEnemy(new Enemy(layer, new Vector2D(Settings.ENEMY_SPAWN_LEFT, -Settings.ENEMY_HEIGHT), soundaManager));
                 else
-                    mainApp.addEnemy(new Enemy(layer, new Vector2D(Settings.ENEMY_SPAWN_RIGHT, -Settings.ENEMY_HEIGHT)));
+                    mainApp.addEnemy(new Enemy(layer, new Vector2D(Settings.ENEMY_SPAWN_RIGHT, -Settings.ENEMY_HEIGHT), soundaManager));
             }
         }
         else if(difficultyStage >= Settings.SPAWNSTART_EVENT && randomInt < propability)
@@ -116,19 +119,19 @@ public class PlatformGenerator {
         if(event)
         {
             if(!eventLeft)
-                return new Vector2D(random.nextInt((int)(layer.getPrefWidth()/2 - Settings.PLATFORM_BUFFER))
+                return new Vector2D(random.nextInt((int)(layer.getPrefWidth()/2 - Settings.PLATFORM_BUFFER- Settings.PLATFORM_WIDTH))
                 + Settings.PLATFORM_BUFFER, 0);
             else
-                return new Vector2D(random.nextInt((int)(layer.getPrefWidth()/2 - Settings.PLATFORM_BUFFER))
+                return new Vector2D(random.nextInt((int)(layer.getPrefWidth()/2 - Settings.PLATFORM_BUFFER- Settings.PLATFORM_WIDTH))
                 + layer.getPrefWidth()/2 + Settings.PLATFORM_BUFFER, 0);
         }
         else
-            return new Vector2D(random.nextInt((int)(layer.getPrefWidth() - 2*Settings.PLATFORM_BUFFER))
+            return new Vector2D(random.nextInt((int)(layer.getPrefWidth() - 2*Settings.PLATFORM_BUFFER - Settings.PLATFORM_WIDTH))
             + Settings.PLATFORM_BUFFER, 0);
     }
 
     public Player generateStartingScenario(List<Platform> platforms) {
-        Player player = new Player(layer, new Vector2D(layer.getPrefWidth()/2, layer.getPrefHeight()/2), Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT, layer.getWidth(), mainApp);
+        Player player = new Player(layer, new Vector2D(layer.getPrefWidth()/2, layer.getPrefHeight()/2), mainApp, soundaManager);
         platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, player.getLocation().y+player.getHeight()/2),
         Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
         platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, 150), 
@@ -140,7 +143,7 @@ public class PlatformGenerator {
 
     public Player generateTestScenario(List<Platform> platforms)
     {
-        Player player = new Player(layer, new Vector2D(layer.getPrefWidth()/2, layer.getPrefHeight()/2), Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT, layer.getWidth(), mainApp);
+        Player player = new Player(layer, new Vector2D(layer.getPrefWidth()/2, layer.getPrefHeight()/2), mainApp, soundaManager);
         platforms.add(new Platform(layer, new Vector2D(player.getLocation().x, player.getLocation().y+player.getHeight()/2),
         Settings.PLATFORM_WIDTH, Settings.PLATFORM_HIGHT));
         platforms.add(new RocketPlatform(layer, new Vector2D(player.getLocation().x+350, player.getLocation().y-100),

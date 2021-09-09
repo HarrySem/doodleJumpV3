@@ -3,6 +3,7 @@ package doodlejump.Entity;
 import java.io.File;
 
 import doodlejump.MainApp;
+import doodlejump.Boundary.SoundManager;
 import doodlejump.Control.Settings;
 import doodlejump.Control.Vector2D;
 import javafx.scene.Group;
@@ -14,11 +15,12 @@ public class Player extends Sprite{
     private boolean moveRight, moveLeft, bouncing, propeller, rocket, shoot, falling, dead;
     private double rightBorder, bounceProgression, propellerProgression, rocketProgession, shotProgression;
     private MainApp mainApp;
+    private SoundManager soundaManager;
 
-    public Player(Layer layer, Vector2D location, double width, double height, double rightBorder, MainApp mainApp) 
+    public Player(Layer layer, Vector2D location, MainApp mainApp, SoundManager soundaManager) 
     {
-        super(layer, location, new Vector2D(0, Settings.JUMP_VELOCITY), new Vector2D(0, Settings.GRAVITY), width, height);
-        this.rightBorder = rightBorder;
+        super(layer, location, new Vector2D(0, Settings.JUMP_VELOCITY), new Vector2D(0, Settings.GRAVITY), Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT);
+        this.rightBorder = Settings.SCENE_WIDTH;
         this.moveLeft = false;
         this.moveRight = false;
         this.bouncing = false;
@@ -32,6 +34,7 @@ public class Player extends Sprite{
         this.falling = false;
         this.dead = false;
         this.mainApp = mainApp;
+        this.soundaManager = soundaManager;
     }
 
     @Override
@@ -146,15 +149,18 @@ public class Player extends Sprite{
 
     public void jump() {
         velocity = new Vector2D(velocity.x, Settings.JUMP_VELOCITY);
+        soundaManager.playJump();
     }
 
     public void springJump() {
         velocity = new Vector2D(velocity.x, Settings.SPRING_JUMP_VELOCITY);
+        soundaManager.playSpring();
     }
 
     public void bounceJump() {
         bouncing = true;
         velocity = new Vector2D(velocity.x, Settings.BOUNCE_JUMP_VELOCITY);
+        soundaManager.playBounce();
     }
 
     public void propeller()
@@ -165,6 +171,7 @@ public class Player extends Sprite{
             acceleration = new Vector2D(0, 0);
             velocity = new Vector2D(0, Settings.PROPELLER_SPEED);
             updateView();
+            soundaManager.playPropeller();
         }
     }
 
@@ -175,6 +182,7 @@ public class Player extends Sprite{
             acceleration = new Vector2D(0, Settings.ROCKET_ACCELERATION);
             velocity = new Vector2D(0, Settings.ROCKET_SPEED);
             updateView();
+            soundaManager.playRocket();
         }
     }
 
@@ -186,6 +194,7 @@ public class Player extends Sprite{
             mainApp.generateProjectile();
             shotProgression = 0;
             updateView();
+            soundaManager.playShot();
         }
     }
 
@@ -193,6 +202,7 @@ public class Player extends Sprite{
     {
         this.falling = true;
         updateView();
+        soundaManager.playFalling();
     }
 
     public boolean getFalling()

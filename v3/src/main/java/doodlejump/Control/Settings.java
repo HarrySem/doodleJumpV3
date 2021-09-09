@@ -64,8 +64,8 @@ public class Settings {
     public static final int SPAWNRATE_BOUNCE = 2;
     public static final int SPAWNRATE_MOVING_HORIZONTAL = 2;
     public static final int SPAWNRATE_MOVING_VERTIKAL = 1;
-    public static final int SPAWNRATE_PROPELLER = 1;
-    public static final int SPAWNRATE_ROCKET = 1;
+    public static final int SPAWNRATE_PROPELLER = 5;
+    public static final int SPAWNRATE_ROCKET = 3;
     public static final int SPAWNRATE_EVENT = 10;
     public static final int SPAWNRATE_DISAPPEARING = 3;
     public static final int SPAWNRATE_EXPLODING = 3;
