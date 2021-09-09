@@ -1,12 +1,13 @@
 package doodlejump.Entity;
 
+import java.io.File;
 import java.util.Random;
 
 import doodlejump.Control.Settings;
 import doodlejump.Control.Vector2D;
 import javafx.scene.Node;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Enemy extends Platform{
 
@@ -25,10 +26,7 @@ public class Enemy extends Platform{
 
     @Override
     public Node createView() {
-        Rectangle rectangle = new Rectangle(width, height, Paint.valueOf("purple"));
-        if(shot)
-            rectangle.setOpacity(0);
-        return rectangle;
+        return new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\monster.png").toURI().toString(), width, height, true, true));
     }
 
     @Override
@@ -67,34 +65,34 @@ public class Enemy extends Platform{
 
     @Override
     public void collide(Player player) {
-        
-        if(player.getLowest() < getHighest() || shot)
+        if(shot)
             return;
-        else if(player.getHighest() < getLowest() && player.getLowest() > getHighest() + Settings.PLATFORM_HIGHT &&
-            player.getMostRight() > getMostLeft() && player.getMostLeft() < getMostRight())
+        if(player.getMostRight() > getMostLeft() && player.getMostLeft() < getMostRight() &&
+            player.getHighest() < getLowest())
         {
-            if(player.getRocket() || player.getPropeller())
-                acceleration = new Vector2D(0, Settings.GRAVITY*2);
-            else
+            if(player.getLowest() > getHighest() + Settings.PLATFORM_HIGHT)
             {
-                player.setDead();
-                player.updateView();
+                if(player.getPropeller() || player.getRocket())
+                    acceleration = new Vector2D(0, Settings.GRAVITY*2);
+                else
+                {
+                    player.setDead();
+                    player.updateView();
+                }
             }
-        }
-        else if(player.velocity.y > 0 && player.getLowest() > getHighest() && player.getLowest() < getHighest()
-         + Settings.PLATFORM_HIGHT &&
-        player.getMostRight() > getMostLeft() && player.getMostLeft() < getMostRight())
-        {
-            acceleration = new Vector2D(0, Settings.GRAVITY*2);
-            player.jump();
+            else if(player.getLowest() > getHighest())
+            {
+                acceleration = new Vector2D(0, Settings.GRAVITY*2);
+                player.jump();
+            }
         }
 
     }
 
     public void shot()
     {
+        layer.getChildren().remove(this);
         shot = true;
-        updateView();
     }
     
 }
