@@ -8,8 +8,6 @@ import doodlejump.Control.Vector2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 
 public class Projectile extends Sprite{
 
@@ -19,7 +17,7 @@ public class Projectile extends Sprite{
 
     @Override
     public Node createView() {
-        return new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\snwoball.png").toURI().toString(), width, height, false, true));
+        return new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\snowball.png").toURI().toString(), width, height, false, true));
     }
 
     public void hit(List<Enemy> enemies)

@@ -40,7 +40,6 @@ public class InputManger implements EventHandler<KeyEvent>{
             else if(input.equals(KeyCode.UP) && !shooting)
             {
                 player.shoot();
-                mainApp.generateProjectile();
                 shooting = true;
             }
         }

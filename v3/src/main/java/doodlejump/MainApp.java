@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -160,7 +159,7 @@ public class MainApp extends Application {
                 });
 
                 if(player.getLocation().y > layer.heightProperty().floatValue())
-                    player.setFalling(true);;
+                    player.setFalling();
                 if(gameOver)
                 {
                     if(score > loadHighscore())

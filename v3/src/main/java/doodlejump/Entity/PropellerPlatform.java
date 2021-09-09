@@ -1,11 +1,13 @@
 package doodlejump.Entity;
 
+import java.io.File;
+
 import doodlejump.Control.Settings;
 import doodlejump.Control.Vector2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class PropellerPlatform extends Platform{
 
@@ -23,7 +25,8 @@ public class PropellerPlatform extends Platform{
         else
         {
             Group group = new Group();
-            Rectangle propeller = new Rectangle(20, 20, Paint.valueOf("green"));
+            ImageView propeller = new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\propellerHat.png").toURI().toString(), 
+            Settings.PROPELLER_WIDTH, Settings.PROPELLER_HEIGHT, true, true));
             group.getChildren().add(super.createView());
             group.getChildren().add(propeller);
             propeller.setLayoutY(-Settings.PROPELLER_HEIGHT);

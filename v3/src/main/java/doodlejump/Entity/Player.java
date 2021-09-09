@@ -2,21 +2,20 @@ package doodlejump.Entity;
 
 import java.io.File;
 
+import doodlejump.MainApp;
 import doodlejump.Control.Settings;
 import doodlejump.Control.Vector2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 public class Player extends Sprite{
     private boolean moveRight, moveLeft, bouncing, propeller, rocket, shoot, falling, dead;
     private double rightBorder, bounceProgression, propellerProgression, rocketProgession, shotProgression;
+    private MainApp mainApp;
 
-    public Player(Layer layer, Vector2D location, double width, double height, double rightBorder) 
+    public Player(Layer layer, Vector2D location, double width, double height, double rightBorder, MainApp mainApp) 
     {
         super(layer, location, new Vector2D(0, Settings.JUMP_VELOCITY), new Vector2D(0, Settings.GRAVITY), width, height);
         this.rightBorder = rightBorder;
@@ -32,6 +31,7 @@ public class Player extends Sprite{
         this.shotProgression = 0;
         this.falling = false;
         this.dead = false;
+        this.mainApp = mainApp;
     }
 
     @Override
@@ -39,7 +39,8 @@ public class Player extends Sprite{
         if(propeller)
         {
             Group group = new Group();
-            Rectangle propeller = new Rectangle(Settings.PROPELLER_WIDTH, Settings.PROPELLER_HEIGHT, Paint.valueOf("green"));
+            ImageView propeller = new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\propellerHat.png").toURI().toString(), 
+            Settings.PROPELLER_WIDTH, Settings.PROPELLER_HEIGHT, true, true));
             group.getChildren().add(new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\penguin.png").toURI().toString(), width, height, true, true)));
             group.getChildren().add(propeller);
             propeller.setLayoutY(-Settings.PROPELLER_HEIGHT);
@@ -48,32 +49,19 @@ public class Player extends Sprite{
         }
         else if(rocket)
         {
-            Group group = new Group();
-            Rectangle rectangle = new Rectangle(Settings.ROCKET_WIDTH, Settings.ROCKET_HEIGHT, Paint.valueOf("purple"));
-            Circle circle = new Circle(5);
-            group.getChildren().add(rectangle);
-            group.getChildren().add(circle);
-            circle.setLayoutX(Settings.ROCKET_WIDTH/2);
-            circle.setLayoutY(Settings.ROCKET_HEIGHT/2);
-            return group;
+            return new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\rocketFlying.png").toURI().toString(), 
+            Settings.ROCKET_WIDTH, Settings.ROCKET_HEIGHT, true, true));
         }
         else if(shoot)
         {
-            Group group = new Group();
-            Rectangle nose = new Rectangle(width/2, height/2);
-            group.getChildren().add(new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\penguin.png").toURI().toString(), width, height, true, true)));
-            group.getChildren().add(nose);
-            nose.setLayoutX(width/4);
-            nose.setLayoutY(-height/2);
-            return group;
+            return new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\penguinShoot.png").toURI().toString(), width, height, true, true));
         }
-        else if(dead)
+        else if(dead || falling)
         {
-            return new Rectangle(width, height);
-            //TODO: make player look dead (stars etc.)
+            return new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\penguinDead.png").toURI().toString(), width, height, true, true));
         }
         else
-        return new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\penguin.png").toURI().toString(), width, height, true, true));
+            return new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\penguin.png").toURI().toString(), width, height, true, true));
     }
 
     public void setRight()
@@ -192,14 +180,19 @@ public class Player extends Sprite{
 
     public void shoot()
     {
-        shoot = true;
-        shotProgression = 0;
-        updateView();
+        if(!propeller && !bouncing)
+        {
+            shoot = true;
+            mainApp.generateProjectile();
+            shotProgression = 0;
+            updateView();
+        }
     }
 
-    public void setFalling(boolean falling)
+    public void setFalling()
     {
-        this.falling = falling;
+        this.falling = true;
+        updateView();
     }
 
     public boolean getFalling()
@@ -209,12 +202,21 @@ public class Player extends Sprite{
 
     public void setDead()
     {
+        velocity = new Vector2D(0, 0);
         dead = true;
     }
 
     public boolean isDead()
     {
         return dead;
+    }
+
+    public boolean getRocket() {
+        return rocket;
+    }
+
+    public boolean getPropeller() {
+        return propeller;
     }
 
 }

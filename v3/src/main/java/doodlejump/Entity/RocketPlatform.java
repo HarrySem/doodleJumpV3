@@ -1,11 +1,13 @@
 package doodlejump.Entity;
 
+import java.io.File;
+
 import doodlejump.Control.Settings;
 import doodlejump.Control.Vector2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class RocketPlatform extends Platform{
 
@@ -23,11 +25,12 @@ public class RocketPlatform extends Platform{
         else
         {
             Group group = new Group();
-            Rectangle propeller = new Rectangle(Settings.ROCKET_WIDTH, Settings.ROCKET_HEIGHT, Paint.valueOf("purple"));
+            ImageView rocket = new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\rocketStanding.png").toURI().toString(), 
+            Settings.ROCKET_WIDTH, Settings.ROCKET_HEIGHT, true, true));
             group.getChildren().add(super.createView());
-            group.getChildren().add(propeller);
-            propeller.setLayoutY(-Settings.ROCKET_HEIGHT);
-            propeller.setLayoutX(Settings.ROCKET_WIDTH);
+            group.getChildren().add(rocket);
+            rocket.setLayoutY(-Settings.ROCKET_HEIGHT);
+            rocket.setLayoutX(Settings.ROCKET_WIDTH);
             return group;
         }
     }

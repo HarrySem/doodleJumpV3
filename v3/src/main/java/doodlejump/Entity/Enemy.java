@@ -73,7 +73,13 @@ public class Enemy extends Platform{
         else if(player.getHighest() < getLowest() && player.getLowest() > getHighest() + Settings.PLATFORM_HIGHT &&
             player.getMostRight() > getMostLeft() && player.getMostLeft() < getMostRight())
         {
-            player.setDead();
+            if(player.getRocket() || player.getPropeller())
+                acceleration = new Vector2D(0, Settings.GRAVITY*2);
+            else
+            {
+                player.setDead();
+                player.updateView();
+            }
         }
         else if(player.velocity.y > 0 && player.getLowest() > getHighest() && player.getLowest() < getHighest()
          + Settings.PLATFORM_HIGHT &&

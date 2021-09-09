@@ -3,8 +3,6 @@ package doodlejump.Entity;
 import doodlejump.Control.Settings;
 import doodlejump.Control.Vector2D;
 import javafx.scene.Node;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 
 public class MovingPlatformHorizontal extends Platform{
 

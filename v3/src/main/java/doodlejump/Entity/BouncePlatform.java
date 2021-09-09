@@ -1,11 +1,13 @@
 package doodlejump.Entity;
 
+import java.io.File;
+
 import doodlejump.Control.Settings;
 import doodlejump.Control.Vector2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class BouncePlatform extends Platform{
 
@@ -16,8 +18,8 @@ public class BouncePlatform extends Platform{
     @Override
     public Node createView() {
         Group group = new Group();
-        Rectangle bounce = new Rectangle(Settings.BOUNCE_WIDTH, Settings.BOUNCE_HEIGHT);
-        bounce.setFill(Paint.valueOf("blue"));
+        ImageView bounce = new ImageView(new Image(new File("v3\\src\\main\\resources\\img\\bounce.png").toURI().toString(), 
+        Settings.BOUNCE_WIDTH, Settings.BOUNCE_HEIGHT, true, true));
         group.getChildren().add(bounce);
         group.getChildren().add(super.createView());
         bounce.setLayoutY(-Settings.BOUNCE_HEIGHT);
