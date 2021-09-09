@@ -30,9 +30,11 @@ public class Settings {
     public static final double MAX_SPAWNDISTANCE = 110;
 
     //Spring Platform
-    public static final double SPRINGS_WIDTH = 20;
+    public static final double SPRING_WIDTH = 20;
     public static final double SPRING_HEIGHT = 10;
     public static final double SPRING_JUMP_VELOCITY = -16;
+    public static final double SPRING_WIDTH_OPEN = SPRING_WIDTH;
+    public static final double SPRING_HEIGHT_OPEN = 30;
 
     //Bouncing Platform
     public static final double BOUNCE_WIDTH = 30;
@@ -81,11 +83,11 @@ public class Settings {
 
     public static final int EVENT_DURATION = 12;
 
-    public static final int SHOT_DURATION = 5;
+    public static final int SHOT_DURATION = 10;
 
     public static final double SHOT_VELOCITY = -15;
-    public static final double SHOT_WIDTH = 100;
-    public static final double SHOT_HEIGHT = 200;
+    public static final double SHOT_WIDTH = 10;
+    public static final double SHOT_HEIGHT = 20;
 
     public static final int FALLING_DURATION = 100;
 
